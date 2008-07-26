@@ -1,0 +1,29 @@
+h1. Framy Actionscript Framework
+
+This is a general purpose actionscript 3 framework, with a main goal of simplifying the creation of presentation flash websites, and generally making my life easier in the process.
+
+h2. Dependencies
+
+It uses some other frameworks and classes, providing a cleaner and more integrated api for them. 
+	* "Tweener":http://code.google.com/p/tweener/ - a very cool animation framework
+	* "SWFAddress":http://www.asual.com/swfaddress/ - deep linking in flash
+	* "MacMouseWheel":http://blog.pixelbreaker.com/flash/as30-mousewheel-on-mac-os-x/ - allow safari to use the mouse wheel, through some js trickery 
+	
+	(I've included their source for convenience as flex won't compile it if they're not present)
+
+h2. Highlights
+
+I will add some documentation later, but the framework's pitch is this:
+
+	* Provide a clear workflow for creating websites - I've managed this by defining "Modules" which act like a single webpage. Modules can have other modules as children, tying them with some transition events. For example if a given module is the currently visible one, and we have to move to another module( both are children of a third module), then first a "DestroyStart" event is dispatched for the first module, then a "BuildStart" on the second.
+	* Easy swfaddress integration - every module has an "url" parameter, so all deeplinking goodness comes for free
+	* I18n - every texfield can be given texts for different locales, with easy switching mechanism
+	* Streamlined resizing
+	* External assets (images/xml) are a lot easier to work with
+	* Hashes - most of the convenience methods of ruby for actionscript Objects
+	* Simple grawl implementation for flash, tooltips
+	* A lot of funcionality to streamline development
+	
+h2.	Drawbacks
+
+This framework is highly specialized for creating presentation websites in flash, and will probably won't be very usable for anything else. For example if you want to build an application in flash (RIA) you're better of using flex builder. Where this framework shines is for creating sites with a lot of images, a lot less text and not very deep page nesting. So if within those constraints, you're in luck, otherwise seek something else.
