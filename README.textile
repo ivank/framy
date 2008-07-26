@@ -5,11 +5,12 @@ This is a general purpose actionscript 3 framework, with a main goal of simplify
 h2. Dependencies
 
 It uses some other frameworks and classes, providing a cleaner and more integrated api for them. 
+
 	* "Tweener":http://code.google.com/p/tweener/ - a very cool animation framework
 	* "SWFAddress":http://www.asual.com/swfaddress/ - deep linking in flash
 	* "MacMouseWheel":http://blog.pixelbreaker.com/flash/as30-mousewheel-on-mac-os-x/ - allow safari to use the mouse wheel, through some js trickery 
 	
-	(I've included their source for convenience as flex won't compile it if they're not present)
+(I've included their source for convenience as flex won't compile it if they're not present)
 
 h2. Highlights
 
@@ -26,4 +27,4 @@ I will add some documentation later, but the framework's pitch is this:
 	
 h2.	Drawbacks
 
-This framework is highly specialized for creating presentation websites in flash, and will probably won't be very usable for anything else. For example if you want to build an application in flash (RIA) you're better of using flex builder. Where this framework shines is for creating sites with a lot of images, a lot less text and not very deep page nesting. So if within those constraints, you're in luck, otherwise seek something else.
+This framework is highly specialized for creating presentation websites in flash, and probably won't be very useful for anything else. For example if you want to build an application in flash (RIA) you're better of using flex builder. Where this framework shines is for creating sites with a lot of images, a lot less text and not very deep page nesting. So if within those constraints, you're in luck, otherwise seek something else.
