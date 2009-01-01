@@ -21,8 +21,8 @@ I will add some documentation later, but the framework's pitch is this:
 	* Never think about resizing again - everything is auto managed
 	* External assets (images/xml) are a lot easier to work with thanks to BulkLoader integration
 	* Hashes - most of the convenience methods of ruby for actionscript Objects
-	* Simple grawl implementation for flash (tooltips)
-	* Debug toold, "symfony":http://symfony-project.org style
+	* Simple grawl implementation for flash (skype-like notifications)
+	* Debug tools, "symfony":http://symfony-project.org style
 	
 h2.	What it is not
 
