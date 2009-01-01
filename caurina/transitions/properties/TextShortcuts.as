@@ -128,7 +128,6 @@ package caurina.transitions.properties {
 				if (colorComponent == "g") return AuxFunctions.numberToG(fmt[propertyName]);
 				if (colorComponent == "b") return AuxFunctions.numberToB(fmt[propertyName]);
 			}
-
 			return NaN;
 		}
 

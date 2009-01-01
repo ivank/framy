@@ -2,14 +2,15 @@
  * Tweener
  * Transition controller for movieclips, sounds, textfields and other objects
  *
- * @author		Zeh Fernando, Nate Chatellier, Arthur Debert
- * @version		1.31.70
+ * @author		Zeh Fernando, Nate Chatellier, Arthur Debert, Francis Turmel
+ * @version		1.31.74
  */
 
 /*
 Licensed under the MIT License
 
-Copyright (c) 2006-2007 Zeh Fernando and Nate Chatellier
+Copyright (c) 2006-2008 Zeh Fernando, Nate Chatellier, Arthur Debert and Francis
+Turmel
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -104,7 +105,7 @@ package caurina.transitions {
 			}
 		
 			// make properties chain ("inheritance")
-    		var p_obj:Object = TweenListObj.makePropertiesChain(arguments[arguments.length-1]);
+    		var p_obj:Object = TweenListObj.makePropertiesChain(p_parameters);
 	
 			// Creates the main engine if it isn't active
 			if (!_inited) init();
@@ -406,6 +407,19 @@ package caurina.transitions {
 			return removed;
 		}
 	
+		/*
+		public static function removeTweens (p_scope:Object, ...args):Boolean {
+			// Create the property list
+			var properties:Array = new Array();
+			var i:uint;
+			for (i = 0; i < args.length; i++) {
+				if (typeof(args[i]) == "string" && properties.indexOf(args[i]) == -1) properties.push(args[i]);
+			}
+			// Call the affect function on the specified properties
+			return affectTweens(removeTweenByIndex, p_scope, properties);
+		}
+		*/
+
 		/**
 		 * Remove tweenings from a given object from the tweening list.
 		 *
@@ -418,12 +432,24 @@ package caurina.transitions {
 			var properties:Array = new Array();
 			var i:uint;
 			for (i = 0; i < args.length; i++) {
-				if (typeof(args[i]) == "string" && !AuxFunctions.isInArray(args[i], properties)) properties.push(args[i]);
+				if (typeof(args[i]) == "string" && properties.indexOf(args[i]) == -1){
+					if (_specialPropertySplitterList[args[i]]){
+						//special property, get splitter array first
+						var sps:SpecialPropertySplitter = _specialPropertySplitterList[args[i]];
+						var specialProps:Array = sps.splitValues(p_scope, null);
+						for (var j:uint = 0; j<specialProps.length; j++){
+						//trace(specialProps[j].name);
+							properties.push(specialProps[j].name);
+						}
+					} else {
+						properties.push(args[i]);
+					}
+				}
 			}
+
 			// Call the affect function on the specified properties
 			return affectTweens(removeTweenByIndex, p_scope, properties);
 		}
-
 
 		/**
 		 * Remove all tweenings from the engine.
@@ -453,7 +479,7 @@ package caurina.transitions {
 			var properties:Array = new Array();
 			var i:uint;
 			for (i = 0; i < args.length; i++) {
-				if (typeof(args[i]) == "string" && !AuxFunctions.isInArray(args[i], properties)) properties.push(args[i]);
+				if (typeof(args[i]) == "string" && properties.indexOf(args[i]) == -1) properties.push(args[i]);
 			}
 			// Call the affect function on the specified properties
 			return affectTweens(pauseTweenByIndex, p_scope, properties);
@@ -488,7 +514,7 @@ package caurina.transitions {
 			var properties:Array = new Array();
 			var i:uint;
 			for (i = 0; i < args.length; i++) {
-				if (typeof(args[i]) == "string" && !AuxFunctions.isInArray(args[i], properties)) properties.push(args[i]);
+				if (typeof(args[i]) == "string" && properties.indexOf(args[i]) == -1) properties.push(args[i]);
 			}
 			// Call the affect function on the specified properties
 			return affectTweens(resumeTweenByIndex, p_scope, properties);
@@ -726,8 +752,8 @@ package caurina.transitions {
 								eventScope = Boolean(tTweening.onUpdateScope) ? tTweening.onUpdateScope : tScope;
 								try {
 									tTweening.onUpdate.apply(eventScope, tTweening.onUpdateParams);
-								} catch(e:Error) {
-									handleError(tTweening, e, "onUpdate");
+								} catch(e1:Error) {
+									handleError(tTweening, e1, "onUpdate");
 								}
 							}
 
@@ -756,8 +782,8 @@ package caurina.transitions {
 							eventScope = Boolean(tTweening.onStartScope) ? tTweening.onStartScope : tScope;
 							try {
 								tTweening.onStart.apply(eventScope, tTweening.onStartParams);
-							} catch(e:Error) {
-								handleError(tTweening, e, "onStart");
+							} catch(e2:Error) {
+								handleError(tTweening, e2, "onStart");
 							}
 						}
 						var pv:Number;
@@ -818,8 +844,8 @@ package caurina.transitions {
 							eventScope = Boolean(tTweening.onUpdateScope) ? tTweening.onUpdateScope : tScope;
 							try {
 								tTweening.onUpdate.apply(eventScope, tTweening.onUpdateParams);
-							} catch(e:Error) {
-								handleError(tTweening, e, "onUpdate");
+							} catch(e3:Error) {
+								handleError(tTweening, e3, "onUpdate");
 							}
 						}
 					} else {
@@ -831,8 +857,8 @@ package caurina.transitions {
 					eventScope = Boolean(tTweening.onCompleteScope) ? tTweening.onCompleteScope : tScope;
 					try {
 						tTweening.onComplete.apply(eventScope, tTweening.onCompleteParams);
-					} catch(e:Error) {
-						handleError(tTweening, e, "onComplete");
+					} catch(e4:Error) {
+						handleError(tTweening, e4, "onComplete");
 					}
 				}
 
@@ -847,7 +873,7 @@ package caurina.transitions {
 		/**
 		 * Initiates the Tweener--should only be ran once.
 		 */
-		public static function init(p_object:* = null):void {
+		public static function init(...rest):void {
 			_inited = true;
 
 			// Registers all default equations
@@ -1057,7 +1083,7 @@ package caurina.transitions {
                 // yup, there's a handler. Wrap this in a try catch in case the onError throws an error itself.
 				var eventScope:Object = Boolean(pTweening.onErrorScope) ? pTweening.onErrorScope : pTweening.scope;
                 try {
-                    pTweening.onError.apply(pTweening.scope, [pTweening.scope, pError]);
+                    pTweening.onError.apply(eventScope, [pTweening.scope, pError]);
                 } catch (metaError : Error){
 					printError(String(pTweening.scope) + " raised an error while executing the 'onError' handler. Original error:\n " + pError.getStackTrace() +  "\nonError error: " + metaError.getStackTrace());
                 }
@@ -1084,7 +1110,7 @@ package caurina.transitions {
 		 * @return							String		The number of the current Tweener version
 		 */
 		public static function getVersion():String {
-			return "AS3 1.31.70";
+			return "AS3 1.31.74";
 		}
 
 
