@@ -31,7 +31,7 @@ package framy.animation {
 			this.frame = frame
 			this.holder = holder
 			this.container = container
-			this.padding = this.options.padding is Point ? this.opitons.padding : new Point(this.options.padding, this.options.padding)
+			this.padding = this.options.padding is Point ? this.options.padding : new Point(this.options.padding, this.options.padding)
 			delete this.options.padding
 		}
 		

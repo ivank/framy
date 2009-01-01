@@ -10,6 +10,7 @@
 	import framy.utils.Colors;
 	import framy.utils.FunctionTools;
 	import framy.utils.Hash;
+	import flash.display.Graphics;
 	
 	/**
 	 * Adds some functionality to the Sprite class - easy children add/remove, graphic functions.
@@ -98,10 +99,10 @@ fySprite.newRect({ width: 30, height: 30, color: 'red', alpha: 0.5})
 		 *	@see framy.graphics.fySprite#newCircle newCircle
 		 */
 		public static function newRect(rect_options:Object = null, attributes:Object = null):fySprite {
-			var attrs:Hash = new Hash( { x: 0, y: 0, width: 150, height: 150 } ).merge(rect_options)
+			var attrs:Hash = new Hash( { x: 0, y: 0, width: 150, height: 150, round: 0 } ).merge(rect_options)
 			var rect:Rectangle = attrs.rect || new Rectangle(attrs.x, attrs.y, attrs.width, attrs.height)
 			return new fySprite().drawWithFilling(function():void{
-  			this.graphics.drawRect(rect.x, rect.y, rect.width, rect.height)
+				this.drawRectangleWithRound(rect,attrs)
 			}, rect_options).setAttrs(attributes)
 		}
 		
@@ -122,10 +123,10 @@ fySprite.newFrame({ width: 30, height: 50, color: 'yellow', line_width: 1})
 			var attrs:Hash = new Hash({x: 0, y: 0, width: 50, height: 50, line_width:1}).merge(rect_options)
 			var rect:Rectangle = attrs.rect || new Rectangle(attrs.x, attrs.y, attrs.width, attrs.height)
 			return new fySprite().drawWithFilling(function():void{
-			  this.graphics.drawRect(rect.x, rect.y, rect.width, rect.height)
-			  rect.inflate( -attrs.line_width, -attrs.line_width)
-			  this.graphics.drawRect(rect.x, rect.y, rect.width, rect.height)
-			  this.scale9Grid = rect
+				this.drawRectangleWithRound(rect,attrs)
+				rect.inflate( -attrs.line_width, -attrs.line_width)
+				this.drawRectangleWithRound(rect,attrs)
+				this.scale9Grid = rect
 			}, rect_options).setAttrs(attributes)
 		}
 		
@@ -182,6 +183,17 @@ fySprite.newCircle({ radius: 10, x: 10, y:10, color: 'blue', alpha: 0.7})
 		  draw.apply(this)
 		  this.graphics.endFill()
 		  return this
+		}
+		
+		/**
+		 *	@private
+		 */
+		private function drawRectangleWithRound(rect:Rectangle, attrs:Hash):void
+		{
+			if(attrs.round)
+  				this.graphics.drawRoundRect(rect.x, rect.y, rect.width, rect.height, attrs.round, attrs.round)
+			else
+  				this.graphics.drawRect(rect.x, rect.y, rect.width, rect.height)			
 		}
 
 	}
