@@ -10,6 +10,8 @@
 	import flash.events.Event;
 	import framy.debug.DebugPanel;
 	
+	import app.widgets.title.Title;
+	
 	[SWF(width=990,height=720)]
 	
 	/**
@@ -41,7 +43,7 @@
 			)
 			
 			//========== PAGES ======================
-			HomepagePage
+			HomepagePage, Title
 			
 			//========== WIDGETS ======================
 			//...

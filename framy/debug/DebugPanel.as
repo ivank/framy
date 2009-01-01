@@ -77,14 +77,15 @@ package framy.debug
     }
     
     private function onTick(event:TimerEvent):void{
-      this.memory_stat.text = System.totalMemory/1024+"KB"
-      this.page_stat.text = Router.current_page.name
-	  this.console_stat.text = log_messages.length + ' messages'
-      this.widgets_stat.text = Initializer.getWidgetsCount() + ' widgets'
-	  
-      
-      _memory_points.shift()
-      _memory_points.push(System.totalMemory)
+    	this.memory_stat.text = System.totalMemory/1024+"KB"
+	
+    	if(Router.current_page)this.page_stat.text = Router.current_page.name
+		this.console_stat.text = log_messages.length + ' messages'
+    	this.widgets_stat.text = Initializer.getWidgetsCount() + ' widgets'
+		
+    	
+    	_memory_points.shift()
+    	_memory_points.push(System.totalMemory)
     }
 
     
