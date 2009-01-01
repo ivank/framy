@@ -1,0 +1,80 @@
+﻿	import flash.geom.Point;
+	import flash.geom.Rectangle;
+	import framy.utils.Aspect;
+	import framy.utils.Hash;
+	
+	/**
+	 *  Get the dimensions of this object (width and height) as an Array ([width,height])
+	 */
+	public function get dims():Array { return [this.width, this.height] }
+	public function set dims(value:Array):void { this.width = value[0]; this.height = value[1] }
+	
+	/**
+	 *  Get the position of this object (x and y) as an Array ([x,y])
+	 */
+	public function get pos():Array { return [this.x, this.y] }
+	public function set pos(value:Array):void { this.x = value[0]; this.y = value[1] }
+	
+	/**
+	 *  Get the position and dimenstions of this object (width, height, x and y) as a Rectangle object
+	 *  @see flash.geom.Rectangle  flash.geom.Rectangle
+	 */
+	public function get rect():Rectangle { return new Rectangle(this.x, this.y, this.width, this.height) }
+	public function set rect(value:Rectangle):void { this.x = value.x; this.y = value.y, this.width = value.width; this.height = value.height }
+	
+	/**
+	 *  Get the position and dimenstions of this object (width, height, x and y) as an Aspect object
+	 *  @see framy.utils.Aspect  Aspect
+	 */
+	public function get aspect():Aspect { return new Aspect(this.width, this.height) }
+	public function set aspect(value:Aspect):void { this.x = value.x; this.y = value.y, this.width = value.width; this.height = value.height }
+	
+	/**
+	 *  Get the position of this object (x and y) as a Point object
+	 *  @see flash.geom.Point  flash.geom.Point
+	 */
+	public function get point():Point { return new Point(this.x,this.y) }
+	public function set point(value:Point):void { this.x = value.x; this.y = value.y; }
+	
+	private var _real_height:Number = 0
+	
+	/**
+	 *  Just like normal height, but accepts negative numbers
+	 */	
+	public function get real_height():Number { return this._real_height || this.height }	
+	public function set real_height(value:Number):void {
+		_real_height = value
+		this.height = Math.abs(value); 
+		if (_real_height < 0) this.y = value
+	}
+	
+	private var _real_width:Number = 0
+	
+	/**
+	 *  Just like normal width, but accepts negative numbers
+	 */
+	public function get real_width():Number { return this._real_width || this.width }
+	public function set real_width(value:Number):void {
+		_real_width = value
+		this.width = Math.abs(value); 
+		if(_real_width < 0)this.x = value
+	}
+	
+	/**
+	 * Apply attributes as a hash, for example { x:10, height:20 } will set the x and height respectively
+	 * @param attributes A hash with attributes
+	 * @return Returns itself
+	 */	
+	public function setAttrs(attrs:Object = null):*{
+	  this.attrs = new Hash(attrs)
+	  return this
+	}
+	
+	/**
+	 * Apply attributes as a hash, for example { x:10, height:20 } will set the x and height respectively
+	 * @param attributes A hash with attributes
+	 */
+	public function set attrs(attributes:Object):* {
+		if(attributes)for (var n:String in attributes) this[n] = attributes[n]
+		return attributes
+	}

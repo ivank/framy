@@ -1,0 +1,1017 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../print.css" type="text/css" media="print">
+<meta content="Tweener,caurina.transitions.Tweener,addCaller,addTween,getCurrentTweeningTime,getTweenCount,getTweens,getVersion,init,isTweening,onEnterFrame,pauseAllTweens,pauseTweenByIndex,pauseTweens,printError,registerSpecialProperty,registerSpecialPropertyModifier,registerSpecialPropertySplitter,registerTransition,removeAllTweens,removeTweenByIndex,removeTweens,removeTweensByTime,resumeAllTweens,resumeTweenByIndex,resumeTweens,setTimeScale,splitTweens,updateFrame,updateTime" name="keywords">
+<title>caurina.transitions.Tweener</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'Tweener - API Documentation';
+				var baseRef = '../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">Framy AS3 Framework</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../all-classes.html')" href="../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../all-classes.html')" href="../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../index-list.html')" href="../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../index.html?caurina/transitions/Tweener.html&amp;caurina/transitions/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;Tweener</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#methodSummary">Methods</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class Tweener"); titleBar_setSubNav(false,false,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">caurina.transitions</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class Tweener</td>
+</tr>
+</table>
+<p></p>
+<p></p>
+<br>
+<hr>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#addCaller()">addCaller</a>(p_scopes:Object = null, p_parameters:Object = null):Boolean</div>
+<div class="summaryTableDescription">[static]
+   Adds a new caller tweening.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#addTween()">addTween</a>(p_scopes:Object = null, p_parameters:Object = null):Boolean</div>
+<div class="summaryTableDescription">[static]
+   Adds a new tweening.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getCurrentTweeningTime()">getCurrentTweeningTime</a>(p_tweening:Object):Number</div>
+<div class="summaryTableDescription">[static]
+   Get the current tweening time (no matter if it uses frames or time as basis), given a specific tweening
+      </div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getTweenCount()">getTweenCount</a>(p_scope:Object):Number</div>
+<div class="summaryTableDescription">[static]
+   Returns the number of properties being tweened for a given object.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getTweens()">getTweens</a>(p_scope:Object):Array</div>
+<div class="summaryTableDescription">[static]
+   Returns an array containing a list of the properties being tweened for this object.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getVersion()">getVersion</a>():String</div>
+<div class="summaryTableDescription">[static]
+   Return the current tweener version
+      </div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#init()">init</a>(... rest):void</div>
+<div class="summaryTableDescription">[static]
+   Initiates the Tweener--should only be ran once.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#isTweening()">isTweening</a>(p_scope:Object):Boolean</div>
+<div class="summaryTableDescription">[static]
+   Finds whether or not an object has any tweening.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#onEnterFrame()">onEnterFrame</a>(e:Event):void</div>
+<div class="summaryTableDescription">[static]
+   Ran once every frame.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#pauseAllTweens()">pauseAllTweens</a>():Boolean</div>
+<div class="summaryTableDescription">[static]
+   Pause all tweenings on the engine.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#pauseTweenByIndex()">pauseTweenByIndex</a>(p_tween:Number):Boolean</div>
+<div class="summaryTableDescription">[static]
+   Pauses a specific tween.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#pauseTweens()">pauseTweens</a>(p_scope:Object, ... args):Boolean</div>
+<div class="summaryTableDescription">[static]
+   Pause tweenings for a given object.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#printError()">printError</a>(p_message:String):void</div>
+<div class="summaryTableDescription">[static]
+   Output an error message
+      </div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#registerSpecialProperty()">registerSpecialProperty</a>(p_name:String, p_getFunction:Function, p_setFunction:Function, p_parameters:Array = null, p_preProcessFunction:Function = null):void</div>
+<div class="summaryTableDescription">[static]
+   Adds a new special property to the available special property list.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#registerSpecialPropertyModifier()">registerSpecialPropertyModifier</a>(p_name:String, p_modifyFunction:Function, p_getFunction:Function):void</div>
+<div class="summaryTableDescription">[static]
+   Adds a new special property modifier to the available modifier list.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#registerSpecialPropertySplitter()">registerSpecialPropertySplitter</a>(p_name:String, p_splitFunction:Function, p_parameters:Array = null):void</div>
+<div class="summaryTableDescription">[static]
+   Adds a new special property splitter to the available splitter list.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#registerTransition()">registerTransition</a>(p_name:String, p_function:Function):void</div>
+<div class="summaryTableDescription">[static]
+   Adds a new function to the available transition list "shortcuts".</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#removeAllTweens()">removeAllTweens</a>():Boolean</div>
+<div class="summaryTableDescription">[static]
+   Remove all tweenings from the engine.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#removeTweenByIndex()">removeTweenByIndex</a>(i:Number, p_finalRemoval:Boolean = false):Boolean</div>
+<div class="summaryTableDescription">[static]
+   Remove a specific tweening from the tweening list.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#removeTweens()">removeTweens</a>(p_scope:Object, ... args):Boolean</div>
+<div class="summaryTableDescription">[static]
+   Remove tweenings from a given object from the tweening list.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#removeTweensByTime()">removeTweensByTime</a>(p_scope:Object, p_properties:Object, p_timeStart:Number, p_timeComplete:Number):Boolean</div>
+<div class="summaryTableDescription">[static]
+   Remove an specified tweening of a specified object the tweening list, if it conflicts with the given time.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#resumeAllTweens()">resumeAllTweens</a>():Boolean</div>
+<div class="summaryTableDescription">[static]
+   Resume all tweenings on the engine.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#resumeTweenByIndex()">resumeTweenByIndex</a>(p_tween:Number):Boolean</div>
+<div class="summaryTableDescription">[static]
+   Resumes a specific tween.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#resumeTweens()">resumeTweens</a>(p_scope:Object, ... args):Boolean</div>
+<div class="summaryTableDescription">[static]
+   Resume tweenings from a given object.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#setTimeScale()">setTimeScale</a>(p_time:Number):void</div>
+<div class="summaryTableDescription">[static]
+   Sets the new time scale.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#splitTweens()">splitTweens</a>(p_tween:Number, p_properties:Array):uint</div>
+<div class="summaryTableDescription">[static]
+   Splits a tweening in two
+      </div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#updateFrame()">updateFrame</a>():void</div>
+<div class="summaryTableDescription">[static]
+   Updates the current frame count
+   </div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#updateTime()">updateTime</a>():void</div>
+<div class="summaryTableDescription">[static]
+   Updates the time to enforce time grid-based updates.</div>
+</td><td class="summaryTableOwnerCol">Tweener</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="addCaller()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">addCaller</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function addCaller(p_scopes:Object = null, p_parameters:Object = null):Boolean</code><p>
+   Adds a new caller tweening.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_scopes</span>:Object</code> (default = <code>null</code>)<code></code> &mdash; (first-n param)  Object that should be tweened: a movieclip, textfield, etc.. OR an array of objects
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_parameters</span>:Object</code> (default = <code>null</code>)<code></code> &mdash; (last param)  Object containing the specified parameters in any order, as well as the properties that should be tweened and their values
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code> &mdash;       <code>true</code> if the tween was successfully added, <code>false</code> if otherwise.
+   </td>
+</tr>
+</table>
+</div>
+<a name="addTween()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">addTween</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function addTween(p_scopes:Object = null, p_parameters:Object = null):Boolean</code><p>
+   Adds a new tweening.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_scopes</span>:Object</code> (default = <code>null</code>)<code></code> &mdash; (first-n param)  Object    Object that should be tweened: a movieclip, textfield, etc.. OR an array of objects
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_parameters</span>:Object</code> (default = <code>null</code>)<code></code> &mdash; (last param)  Object    Object containing the specified parameters in any order, as well as the properties that should be tweened and their values
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code> &mdash;       Boolean    TRUE if the tween was successfully added, FALSE if otherwise
+   </td>
+</tr>
+</table>
+</div>
+<a name="getCurrentTweeningTime()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getCurrentTweeningTime</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function getCurrentTweeningTime(p_tweening:Object):Number</code><p>
+   Get the current tweening time (no matter if it uses frames or time as basis), given a specific tweening
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_tweening</span>:Object</code> &mdash; p_tweening    TweenListObj  Tween information
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code></td>
+</tr>
+</table>
+</div>
+<a name="getTweenCount()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getTweenCount</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function getTweenCount(p_scope:Object):Number</code><p>
+   Returns the number of properties being tweened for a given object.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_scope</span>:Object</code> &mdash; p_scope  Target object.
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code> &mdash;     Total number of properties being tweened (including delayed or paused tweens).
+   </td>
+</tr>
+</table>
+</div>
+<a name="getTweens()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getTweens</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function getTweens(p_scope:Object):Array</code><p>
+   Returns an array containing a list of the properties being tweened for this object.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_scope</span>:Object</code> &mdash; p_scope  Target object.
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Array</code> &mdash;     Total number of properties being tweened (including delayed or paused tweens).
+   </td>
+</tr>
+</table>
+</div>
+<a name="getVersion()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getVersion</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function getVersion():String</code><p>
+   Return the current tweener version
+      </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>String</code> &mdash;       String  The number of the current Tweener version
+   </td>
+</tr>
+</table>
+</div>
+<a name="init()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">init</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function init(... rest):void</code><p>
+   Initiates the Tweener--should only be ran once.
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code>... <span class="label">rest</span></code></td>
+</tr>
+</table>
+</div>
+<a name="isTweening()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">isTweening</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function isTweening(p_scope:Object):Boolean</code><p>
+   Finds whether or not an object has any tweening.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_scope</span>:Object</code> &mdash; p_scope  Target object.
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code> &mdash;     <code>true</code> if there's a tweening occuring on this object (paused, delayed, or active), <code>false</code> if otherwise.
+   </td>
+</tr>
+</table>
+</div>
+<a name="onEnterFrame()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">onEnterFrame</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function onEnterFrame(e:Event):void</code><p>
+   Ran once every frame. It's the main engine; updates all existing tweenings.
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">e</span>:Event</code></td>
+</tr>
+</table>
+</div>
+<a name="pauseAllTweens()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">pauseAllTweens</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function pauseAllTweens():Boolean</code><p>
+   Pause all tweenings on the engine.
+      </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code> &mdash;     <code>true</code> if it successfully paused any tweening, <code>false</code> if otherwise.
+   </td>
+</tr>
+</table>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../transitions/Tweener.html#resumeAllTweens()" target="">resumeAllTweens()</a>
+</div>
+</div>
+<a name="pauseTweenByIndex()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">pauseTweenByIndex</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function pauseTweenByIndex(p_tween:Number):Boolean</code><p>
+   Pauses a specific tween.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_tween</span>:Number</code> &mdash; p_tween    Number  Index of the tween to be paused
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code> &mdash;       Boolean  Whether or not it successfully paused this tweening
+   </td>
+</tr>
+</table>
+</div>
+<a name="pauseTweens()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">pauseTweens</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function pauseTweens(p_scope:Object, ... args):Boolean</code><p>
+   Pause tweenings for a given object.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_scope</span>:Object</code> &mdash; p_scope    Object that must have its tweens paused
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code>... <span class="label">args</span></code> &mdash; (2nd-last params) Property(ies) that must be paused
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code> &mdash;     <code>true</code> if it successfully paused any tweening, <code>false</code> if otherwise.
+   </td>
+</tr>
+</table>
+</div>
+<a name="printError()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">printError</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function printError(p_message:String):void</code><p>
+   Output an error message
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_message</span>:String</code> &mdash; p_message    String  The error message to output
+   </td>
+</tr>
+</table>
+</div>
+<a name="registerSpecialProperty()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">registerSpecialProperty</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function registerSpecialProperty(p_name:String, p_getFunction:Function, p_setFunction:Function, p_parameters:Array = null, p_preProcessFunction:Function = null):void</code><p>
+   Adds a new special property to the available special property list.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_name</span>:String</code> &mdash; p_name    Name of the "special" property.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_getFunction</span>:Function</code> &mdash; p_getFunction  Function that gets the value.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_setFunction</span>:Function</code> &mdash; p_setFunction  Function that sets the value.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_parameters</span>:Array</code> (default = <code>null</code>)<code></code></td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_preProcessFunction</span>:Function</code> (default = <code>null</code>)<code></code></td>
+</tr>
+</table>
+</div>
+<a name="registerSpecialPropertyModifier()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">registerSpecialPropertyModifier</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function registerSpecialPropertyModifier(p_name:String, p_modifyFunction:Function, p_getFunction:Function):void</code><p>
+   Adds a new special property modifier to the available modifier list.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_name</span>:String</code> &mdash; p_name    Name of the "special" property modifier.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_modifyFunction</span>:Function</code> &mdash; p_modifyFunction Function that modifies the value.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_getFunction</span>:Function</code> &mdash; p_getFunction  Function that gets the value.
+   </td>
+</tr>
+</table>
+</div>
+<a name="registerSpecialPropertySplitter()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">registerSpecialPropertySplitter</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function registerSpecialPropertySplitter(p_name:String, p_splitFunction:Function, p_parameters:Array = null):void</code><p>
+   Adds a new special property splitter to the available splitter list.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_name</span>:String</code> &mdash; p_name    Name of the "special" property splitter.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_splitFunction</span>:Function</code> &mdash; p_splitFunction  Function that splits the value.
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_parameters</span>:Array</code> (default = <code>null</code>)<code></code></td>
+</tr>
+</table>
+</div>
+<a name="registerTransition()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">registerTransition</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function registerTransition(p_name:String, p_function:Function):void</code><p>
+   Adds a new function to the available transition list "shortcuts".
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_name</span>:String</code> &mdash; p_name    String  Shorthand transition name
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_function</span>:Function</code> &mdash; p_function   Function The proper equation function
+   </td>
+</tr>
+</table>
+</div>
+<a name="removeAllTweens()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">removeAllTweens</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function removeAllTweens():Boolean</code><p>
+   Remove all tweenings from the engine.
+      </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code> &mdash;     <code>true</code> if it successfully removed any tweening, <code>false</code> if otherwise.
+   </td>
+</tr>
+</table>
+</div>
+<a name="removeTweenByIndex()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">removeTweenByIndex</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function removeTweenByIndex(i:Number, p_finalRemoval:Boolean = false):Boolean</code><p>
+   Remove a specific tweening from the tweening list.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">i</span>:Number</code> &mdash; p_tween    Number  Index of the tween to be removed on the tweenings list
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_finalRemoval</span>:Boolean</code> (default = <code>false</code>)<code></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code> &mdash;       Boolean  Whether or not it successfully removed this tweening
+   </td>
+</tr>
+</table>
+</div>
+<a name="removeTweens()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">removeTweens</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function removeTweens(p_scope:Object, ... args):Boolean</code><p>
+   Remove tweenings from a given object from the tweening list.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_scope</span>:Object</code> &mdash; p_tween    Object  Object that must have its tweens removed
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code>... <span class="label">args</span></code> &mdash; (2nd-last params) Object  Property(ies) that must be removed
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code> &mdash;       Boolean  Whether or not it successfully removed this tweening
+   </td>
+</tr>
+</table>
+</div>
+<a name="removeTweensByTime()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">removeTweensByTime</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function removeTweensByTime(p_scope:Object, p_properties:Object, p_timeStart:Number, p_timeComplete:Number):Boolean</code><p>
+   Remove an specified tweening of a specified object the tweening list, if it conflicts with the given time.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_scope</span>:Object</code> &mdash; p_scope    Object      List of objects affected
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_properties</span>:Object</code> &mdash; p_properties  Object       List of properties affected (PropertyInfoObj instances)
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_timeStart</span>:Number</code> &mdash; p_timeStart   Number      Time when the new tween starts
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_timeComplete</span>:Number</code> &mdash; p_timeComplete  Number      Time when the new tween ends
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code> &mdash;       Boolean      Whether or not it actually deleted something
+   </td>
+</tr>
+</table>
+</div>
+<a name="resumeAllTweens()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">resumeAllTweens</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function resumeAllTweens():Boolean</code><p>
+   Resume all tweenings on the engine.
+      </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code> &mdash; <code>true</code> if it successfully resumed any tweening, <code>false</code> if otherwise.
+   </td>
+</tr>
+</table>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../transitions/Tweener.html#pauseAllTweens()" target="">pauseAllTweens()</a>
+</div>
+</div>
+<a name="resumeTweenByIndex()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">resumeTweenByIndex</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function resumeTweenByIndex(p_tween:Number):Boolean</code><p>
+   Resumes a specific tween.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_tween</span>:Number</code> &mdash; p_tween    Number  Index of the tween to be resumed
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code> &mdash;       Boolean  Whether or not it successfully resumed this tweening
+   </td>
+</tr>
+</table>
+</div>
+<a name="resumeTweens()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">resumeTweens</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function resumeTweens(p_scope:Object, ... args):Boolean</code><p>
+   Resume tweenings from a given object.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_scope</span>:Object</code> &mdash; p_scope    Object  Object that must have its tweens resumed
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code>... <span class="label">args</span></code> &mdash; (2nd-last params) Object  Property(ies) that must be resumed
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Boolean</code> &mdash;       Boolean  Whether or not it successfully resumed something
+   </td>
+</tr>
+</table>
+</div>
+<a name="setTimeScale()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">setTimeScale</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function setTimeScale(p_time:Number):void</code><p>
+   Sets the new time scale.
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_time</span>:Number</code> &mdash; p_time    Number  New time scale (0.5 = slow, 1 = normal, 2 = 2x fast forward, etc)
+   </td>
+</tr>
+</table>
+</div>
+<a name="splitTweens()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">splitTweens</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function splitTweens(p_tween:Number, p_properties:Array):uint</code><p>
+   Splits a tweening in two
+      </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">p_tween</span>:Number</code> &mdash; p_tween    Number  Object that must have its tweens split
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">p_properties</span>:Array</code> &mdash; p_properties  Array  Array of strings containing the list of properties that must be separated
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>uint</code> &mdash;       Number  The index number of the new tween
+   </td>
+</tr>
+</table>
+</div>
+<a name="updateFrame()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">updateFrame</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function updateFrame():void</code><p>
+   Updates the current frame count
+   </p></div>
+<a name="updateTime()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">updateTime</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function updateTime():void</code><p>
+   Updates the time to enforce time grid-based updates.
+   </p></div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright"> 
+</center>
+</div>
+</body>
+</html>
+<!-- -->

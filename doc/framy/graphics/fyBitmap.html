@@ -1,0 +1,563 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../print.css" type="text/css" media="print">
+<meta content="fyBitmap,framy.graphics.fyBitmap,RESAMPLE_INVOKERS,aspect,dims,point,pos,real_height,real_width,rect,attrs,getAverageColor,removeTweens,sendAbove,sendBack,sendBelow,sendFront,setAttrs,tween" name="keywords">
+<title>framy.graphics.fyBitmap</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'fyBitmap - API Documentation';
+				var baseRef = '../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">Framy AS3 Framework</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../all-classes.html')" href="../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../all-classes.html')" href="../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../index-list.html')" href="../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../index.html?framy/graphics/fyBitmap.html&amp;framy/graphics/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;fyBitmap</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a>&nbsp;| <a href="#constantSummary">Constants</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class fyBitmap"); titleBar_setSubNav(true,true,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">framy.graphics</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class fyBitmap</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">fyBitmap <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../images/inherit-arrow.gif"> flash.display.Bitmap</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Subclasses</td><td><a href="../model/ExternalBitmap.html">ExternalBitmap</a></td>
+</tr>
+</table>
+<p></p>
+  Adds some functionality to the Bitmap class - auto smoothing while tweeing, color sampling
+  <p></p>
+<br>
+<hr>
+</div>
+<a name="propertySummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Properties</div>
+<table id="summaryTableProperty" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#aspect">aspect</a> : <a href="../utils/Aspect.html">Aspect</a>
+<div class="summaryTableDescription">
+   Get the position and dimenstions of this object (width, height, x and y) as an Aspect object
+   </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#attrs">attrs</a> : Object<div class="summaryTableDescription">[write-only]
+  Apply attributes as a hash, for example { x:10, height:20 } will set the x and height respectively
+  </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#dims">dims</a> : Array<div class="summaryTableDescription">
+   Get the dimensions of this object (width and height) as an Array ([width,height])
+  </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#point">point</a> : Point<div class="summaryTableDescription">
+   Get the position of this object (x and y) as a Point object
+   </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#pos">pos</a> : Array<div class="summaryTableDescription">
+   Get the position of this object (x and y) as an Array ([x,y])
+  </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#real_height">real_height</a> : Number<div class="summaryTableDescription">
+   Just like normal height, but accepts negative numbers
+  </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#real_width">real_width</a> : Number<div class="summaryTableDescription">
+   Just like normal width, but accepts negative numbers
+  </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#rect">rect</a> : Rectangle<div class="summaryTableDescription">
+   Get the position and dimenstions of this object (width, height, x and y) as a Rectangle object
+   </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+</table>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#fyBitmap()">fyBitmap</a>(attributes:Object = null)</div>
+<div class="summaryTableDescription">
+   creates a new bitmap - the same as the Bitmap class, but allows setting default attributes
+   </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#getAverageColor()">getAverageColor</a>(area:Rectangle):uint</div>
+<div class="summaryTableDescription">
+   Calculates the average color of a given area.</div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#removeTweens()">removeTweens</a>(params:Object = null):<a href="../graphics/fyBitmap.html">fyBitmap</a>
+</div>
+<div class="summaryTableDescription">
+   A proxy for Tweener.removeTweens(this, params)
+   </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#sendAbove()">sendAbove</a>(child:DisplayObject):void</div>
+<div class="summaryTableDescription">
+   Move this object above another object in its parent DisplayObjectContainer list
+  </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#sendBack()">sendBack</a>():void</div>
+<div class="summaryTableDescription">
+   Move this object to the bottom of its parent DisplayObjectContainer list
+  </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#sendBelow()">sendBelow</a>(child:DisplayObject):void</div>
+<div class="summaryTableDescription">
+   Move this object below another object in its parent DisplayObjectContainer list
+  </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#sendFront()">sendFront</a>():void</div>
+<div class="summaryTableDescription">
+   Move this object to the top of its parent DisplayObjectContainer list
+  </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#setAttrs()">setAttrs</a>(attrs:Object = null):*</div>
+<div class="summaryTableDescription">
+  Apply attributes as a hash, for example { x:10, height:20 } will set the x and height respectively
+  </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#tween()">tween</a>(... arguments):<a href="../graphics/fyBitmap.html">fyBitmap</a>
+</div>
+<div class="summaryTableDescription">
+   A proxy for Tweener.addTween(this, arguments), but removes the smoothing if the parameters being tweened cause redraw
+   significantly improving performance, but while it's tweening it looks a bit pixelated
+   </div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+</table>
+</div>
+<a name="constantSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Constants</div>
+<table id="summaryTableConstant" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#RESAMPLE_INVOKERS">RESAMPLE_INVOKERS</a> : Array<div class="summaryTableDescription">[static]</div>
+</td><td class="summaryTableOwnerCol">fyBitmap</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="propertyDetail"></a>
+<div class="detailSectionHeader">Property detail</div>
+<a name="aspect"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">aspect</td><td class="detailHeaderType">property</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>aspect:<a href="../utils/Aspect.html">Aspect</a></code>&nbsp;&nbsp;[read-write]<p>
+   Get the position and dimenstions of this object (width, height, x and y) as an Aspect object
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get aspect():<a href="../utils/Aspect.html">Aspect</a></code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set aspect(value:<a href="../utils/Aspect.html">Aspect</a>):void</code>
+<br>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../utils/Aspect.html" target="">Aspect</a>
+</div>
+</div>
+<a name="attrs"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">attrs</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>attrs:Object</code>&nbsp;&nbsp;[write-only]<p>
+  Apply attributes as a hash, for example { x:10, height:20 } will set the x and height respectively
+  </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set attrs(value:Object):void</code>
+<br>
+</div>
+<a name="dims"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">dims</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>dims:Array</code>&nbsp;&nbsp;[read-write]<p>
+   Get the dimensions of this object (width and height) as an Array ([width,height])
+  </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get dims():Array</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set dims(value:Array):void</code>
+<br>
+</div>
+<a name="point"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">point</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>point:Point</code>&nbsp;&nbsp;[read-write]<p>
+   Get the position of this object (x and y) as a Point object
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get point():Point</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set point(value:Point):void</code>
+<br>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">flash.geom.Point</div>
+</div>
+<a name="pos"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">pos</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>pos:Array</code>&nbsp;&nbsp;[read-write]<p>
+   Get the position of this object (x and y) as an Array ([x,y])
+  </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get pos():Array</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set pos(value:Array):void</code>
+<br>
+</div>
+<a name="real_height"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">real_height</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>real_height:Number</code>&nbsp;&nbsp;[read-write]<p>
+   Just like normal height, but accepts negative numbers
+  </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get real_height():Number</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set real_height(value:Number):void</code>
+<br>
+</div>
+<a name="real_width"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">real_width</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>real_width:Number</code>&nbsp;&nbsp;[read-write]<p>
+   Just like normal width, but accepts negative numbers
+  </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get real_width():Number</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set real_width(value:Number):void</code>
+<br>
+</div>
+<a name="rect"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">rect</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>rect:Rectangle</code>&nbsp;&nbsp;[read-write]<p>
+   Get the position and dimenstions of this object (width, height, x and y) as a Rectangle object
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get rect():Rectangle</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set rect(value:Rectangle):void</code>
+<br>
+<p>
+<span class="label">See also</span>
+</p>
+<div class="seeAlso">flash.geom.Rectangle</div>
+</div>
+<a name="constructorDetail"></a>
+<div class="detailSectionHeader">Constructor detail</div>
+<a name="fyBitmap()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">fyBitmap</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">constructor</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function fyBitmap(attributes:Object = null)</code><p>
+   creates a new bitmap - the same as the Bitmap class, but allows setting default attributes
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">attributes</span>:Object</code> (default = <code>null</code>)<code></code> &mdash;  a hash of attributes to be applyed on creation
+   </td>
+</tr>
+</table>
+</div>
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="getAverageColor()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">getAverageColor</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function getAverageColor(area:Rectangle):uint</code><p>
+   Calculates the average color of a given area. If there is no bitmapData, throws an error
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">area</span>:Rectangle</code> &mdash;  A rectangle where the colors are sampled
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>uint</code> &mdash;  The avarage color in the rectangle area
+   </td>
+</tr>
+</table>
+</div>
+<a name="removeTweens()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">removeTweens</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function removeTweens(params:Object = null):<a href="../graphics/fyBitmap.html">fyBitmap</a></code><p>
+   A proxy for Tweener.removeTweens(this, params)
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">params</span>:Object</code> (default = <code>null</code>)<code></code></td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../graphics/fyBitmap.html">fyBitmap</a></code> &mdash; 
+                         Returns itslef
+   
+                        
+                     </td>
+</tr>
+</table>
+</div>
+<a name="sendAbove()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">sendAbove</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function sendAbove(child:DisplayObject):void</code><p>
+   Move this object above another object in its parent DisplayObjectContainer list
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">child</span>:DisplayObject</code></td>
+</tr>
+</table>
+</div>
+<a name="sendBack()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">sendBack</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function sendBack():void</code><p>
+   Move this object to the bottom of its parent DisplayObjectContainer list
+  </p></div>
+<a name="sendBelow()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">sendBelow</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function sendBelow(child:DisplayObject):void</code><p>
+   Move this object below another object in its parent DisplayObjectContainer list
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">child</span>:DisplayObject</code></td>
+</tr>
+</table>
+</div>
+<a name="sendFront()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">sendFront</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function sendFront():void</code><p>
+   Move this object to the top of its parent DisplayObjectContainer list
+  </p></div>
+<a name="setAttrs()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">setAttrs</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function setAttrs(attrs:Object = null):*</code><p>
+  Apply attributes as a hash, for example { x:10, height:20 } will set the x and height respectively
+  </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">attrs</span>:Object</code> (default = <code>null</code>)<code></code> &mdash; A hash with attributes
+  </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>*</code> &mdash; Returns itself
+  </td>
+</tr>
+</table>
+</div>
+<a name="tween()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">tween</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function tween(... arguments):<a href="../graphics/fyBitmap.html">fyBitmap</a></code><p>
+   A proxy for Tweener.addTween(this, arguments), but removes the smoothing if the parameters being tweened cause redraw
+   significantly improving performance, but while it's tweening it looks a bit pixelated
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code>... <span class="label">arguments</span></code> &mdash;  Fashes of parameters for the tween, each one is merged with the next
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code><a href="../graphics/fyBitmap.html">fyBitmap</a></code> &mdash; 
+                         Returns itslef
+   
+                        
+                     </td>
+</tr>
+</table>
+</div>
+<a name="constantDetail"></a>
+<div class="detailSectionHeader">Constant detail</div>
+<a name="RESAMPLE_INVOKERS"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">RESAMPLE_INVOKERS</td><td class="detailHeaderType">constant</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static const RESAMPLE_INVOKERS:Array</code>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright"> 
+</center>
+</div>
+</body>
+</html>
+<!-- -->

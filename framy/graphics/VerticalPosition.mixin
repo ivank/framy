@@ -1,0 +1,30 @@
+﻿	import flash.display.DisplayObject
+	
+	/**
+	 *  Move this object to the top of its parent DisplayObjectContainer list
+	 */
+	public function sendFront():void {
+		this.parent.setChildIndex(this,this.parent.numChildren - 1);
+	}
+	
+	/**
+	 *  Move this object below another object in its parent DisplayObjectContainer list
+	 */
+	public function sendBelow(child:DisplayObject):void {
+		this.parent.setChildIndex(this, this.parent.getChildIndex(child))
+	}
+	
+	/**
+	 *  Move this object above another object in its parent DisplayObjectContainer list
+	 */
+	public function sendAbove(child:DisplayObject):void {
+		this.parent.setChildIndex(this, this.parent.getChildIndex(child))
+		this.parent.swapChildren(this, child)
+	}
+	
+	/**
+	 *  Move this object to the bottom of its parent DisplayObjectContainer list
+	 */
+	public function sendBack():void {
+		this.parent.setChildIndex(this,0)
+	}
