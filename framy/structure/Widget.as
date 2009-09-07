@@ -1,10 +1,12 @@
 ﻿package framy.structure 
 {
 	import caurina.transitions.Tweener;
+	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
 	import framy.animation.Sequence;
 	import framy.events.ChangeEvent;
-	import framy.events.SequenceEvent;
+	import framy.events.WidgetLoaderEvent;
+	import framy.utils.ArrayTools;
 	import framy.utils.FunctionTools;
 	import framy.routing.Router;
 	import flash.display.DisplayObject;
@@ -30,15 +32,15 @@
 		private var _cached_attributes:Hash = new Hash()
 		private var _cached_animation:Sequence
 		private var _views_history:Array = []
-		private var _content_arguments:Array
+		private var _loader:String
 		
-		public function Widget(container:WidgetContainer, name:String, parameters:Object = null, content_arguments:Array = null) 
+		public function Widget(container:WidgetContainer, name:String, parameters:Object = null) 
 		{
 			this._name = name
 			this._path = name.replace(/\{[^\}]*\}/,'')
 			this._parameters = new Hash(parameters)
 			this._container = container
-			this._content_arguments = content_arguments
+			
 		}
 		
 		public function equals(widget:Widget):Boolean {
@@ -70,11 +72,10 @@
 			RootWidgetContainer.addEventListener(Event.RESIZE, this.onResize)
 			RootWidgetContainer.addEventListener(RootWidgetContainer.START_RESIZE, this.onResizeStart)
 			
-		  _content = FunctionTools.newWithArguments(this.widget_class, this._content_arguments)
+			_content = FunctionTools.newWithArguments(this.widget_class)
 		  
 			this._widgets = new SpriteWidgetContainer(_content as Sprite, this._container.path+'.'+this._name, this)
 			Initializer.registerWidgetContent(this, _content)
-			
 			return _content
 		}
 		
@@ -84,6 +85,10 @@
 		
 		public function getPrevious(back_count:uint):Widget {
 			return this.container.getPrevious(this,back_count)
+		}
+		
+		public function getParent():Widget {
+			return this.container.parent_widget
 		}
 		
 		public function getSibling(id:String):Widget {
@@ -100,62 +105,48 @@
 			}
 		}
 		
-		private function onResizeStart(event:Event):void
-		{
-			if (this.current_view.start_resize) {
-				_cached_attributes = _current_view.calculated_attributes
-				Tweener.addTween(this._content, _cached_attributes.dup.merge(Initializer.options.resize.tween).merge(_current_view.resize).withKeys(['x', 'y', 'width', 'height', 'scaleX', 'scaleY']))
+		private function onResizeStart(event:Event):void {
+			if (this.current_view.resize_on_start) {
+				_cached_attributes = _current_view.calculated_content_position
+				Tweener.addTween(this._content, _cached_attributes.dup.merge(Initializer.options.resize.tween).merge(_current_view.resize).withKeys(Initializer.options.resize.default_parameters.concat(Initializer.options.resize.parameters)))
 			}
 		}
 		
 		private function onResize(event:Event):void {
-			if (!this.current_view.start_resize) {
-				_cached_attributes = _current_view.calculated_attributes
-				Tweener.addTween(this._content, _cached_attributes.dup.merge(Initializer.options.resize.tween).merge(_current_view.resize).withKeys(['time', 'transition', 'x', 'y', 'width', 'height', 'scaleX', 'scaleY']))
-			}
-		}
-		
-		private function autoAddEventsFor(view:WidgetView):void {
-			for each( var stage:String in [ChangeEvent.FIRST_START, ChangeEvent.START, ChangeEvent.LAST_START, ChangeEvent.FIRST_PROGRESS, ChangeEvent.PROGRESS, ChangeEvent.LAST_PROGRESS, ChangeEvent.FIRST_FINISH, ChangeEvent.FINISH, ChangeEvent.LAST_FINISH]) {
-				if (!_content.hasEventListener(stage + view.classifyed_view) && FunctionTools.getMethod(_content, stage + view.classifyed_view) !== null) {
-					_content.addEventListener(stage + view.classifyed_view, _content[stage + view.classifyed_view])
-				}
+			if (!this.current_view.resize_on_start) {
+				_cached_attributes = _current_view.calculated_content_position
+				Tweener.addTween(this._content, 
+					_cached_attributes.dup.merge(Initializer.options.resize.tween)
+						.merge(_current_view.resize)
+						.withKeys(Initializer.options.resize.default_parameters.concat(
+							['time', 'transition'],
+							Initializer.options.resize.parameters
+						)
+					)
+				)
 			}
 		}
 		
 		public function morphTo(widget_view:WidgetView):Widget {
-			var _first_view:Boolean = _views_history.indexOf(widget_view.view) < 0
-			
-			var _widget:Widget = this
+			_current_view = widget_view
 			_views_history.push(widget_view.view)
 			
 			if(!this.container.hasWidget(this))this.container.addWidget(this)
-			var _same_view:Boolean = this.isView(widget_view)
-			_current_view = widget_view
 			
-			if(Initializer.options.auto_change_events)this.autoAddEventsFor(widget_view)
+			if (widget_view.content_attrs)_content.attrs = widget_view.content_attrs
 			
-			_cached_animation = widget_view.animation_attributes.dup.setDispatcher(Router.current_page)
-			
-			if ( !_same_view )_cached_animation.addEventListener(SequenceEvent.START, function(event:SequenceEvent):void {
-				fireEventTrio(_content, ChangeEvent.START+widget_view.classifyed_view, 0, _cached_animation.length, event.current, Router.current_page.data, _first_view)
-				Router.current_page.dispatchAnonimousEvent(new ChangeEvent(ChangeEvent.START+widget_view.classifyed_view + ':' + widget_view.full_name,0, _cached_animation.length, event.current))
-			})
-			
-			if ( !_same_view )_cached_animation.addEventListener(SequenceEvent.PROGRESS, function(event:SequenceEvent):void {
-				fireEventTrio(_content, ChangeEvent.PROGRESS+widget_view.classifyed_view, _content.progress, _cached_animation.length, event.current, Router.current_page.data, _first_view)
-			})
-			
-			if ( !_same_view )_cached_animation.addEventListener(SequenceEvent.COMPLETE, function(event:SequenceEvent):void {
-				Router.current_page.dispatchAnonimousEvent(new ChangeEvent(ChangeEvent.FINISH+widget_view.classifyed_view + ':' + widget_view.full_name, 1, _cached_animation.length, event.current))
-				fireEventTrio(_content, ChangeEvent.FINISH+widget_view.classifyed_view, 1, _cached_animation.length, event.current, Router.current_page.data, _first_view)
-				if ((event.current == _cached_animation.length -1) && widget_view.view == 'destroy') {
-					_widget.container.removeWidget(_widget)
-					_widget.destroyContent()
+			if (!this.isView(widget_view)) {
+				if (_content is EventDispatcher) {
+					_content.dispatchEvent(new ChangeEvent(ChangeEvent.WIDGET_CHANGE, widget_view.view))
+					if ( widget_view.loader ) {
+						this._loader = widget_view.loader_unique_id
+						WidgetLoader.register(widget_view.loader, widget_view.loader_unique_id, _content)
+						if(widget_view.loader_auto_start)WidgetLoader.get(_content).start()
+					}
 				}
-			})
-			
-			_cached_animation.apply(_content)
+				if (widget_view.view == 'destroy')widget_view.addEventListener(Event.COMPLETE, this.onWidgetDestroy)
+				widget_view.startAnimation(_content)
+			}
 			
 			if (widget_view.child_views) {
 				this._widgets.change(widget_view.child_views)
@@ -163,13 +154,15 @@
 			
 			return this
 		}
-		
-		private function fireEventTrio(_content:*, type:String, progress:Number, length:uint, current:uint, data: * , _first_view:Boolean):void {
-			if (_content.hasEventListener(type))_content.dispatchEvent(new ChangeEvent(type, progress, length, current, data, _first_view))
-			if (_content.hasEventListener('first'+StringTools.classify(type)) && current == 0)_content.dispatchEvent(new ChangeEvent('first'+StringTools.classify(type), progress, length, current, data, _first_view))
-			if (_content.hasEventListener('last'+StringTools.classify(type)) && current == length -1)_content.dispatchEvent(new ChangeEvent('last'+StringTools.classify(type), progress, length, current, data, _first_view))			
-			
+				
+		private function onWidgetDestroy(event:Event):void
+		{
+			if(this._loader)WidgetLoader.unregister(this._content)
+			if (_content is EventDispatcher)_content.dispatchEvent(new ChangeEvent(ChangeEvent.WIDGET_DESTROY, 'destroy'))
+			this._container.removeWidget(this)
+			this.destroyContent()
 		}
+		
 		
 		private function isView(v:WidgetView):Boolean {
 			return this.current_view && this.current_view.view  === v.view && !v.reload

@@ -2,10 +2,12 @@
 {
 	import br.com.stimuli.loading.BulkLoader;
 	import br.com.stimuli.loading.BulkProgressEvent;
+	import flash.display.BitmapData;
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
 	import flash.net.URLRequest;
 	import framy.graphics.fyBitmap;
+	import framy.utils.Aspect;
 	import framy.utils.Hash;
 	
 	/**
@@ -31,7 +33,8 @@
 		private var loader:BulkLoader
 		private var _url:*
 		private var _on_load_hash:Object
-		
+		private var _bitmap_aspect:Aspect
+		private var _smoothing:Boolean
 		/**
 		 *	<p>Creates the bitmap, which will be loaded from a specified url.</p>
 		 *	You can set options for the loading:
@@ -81,8 +84,13 @@ image_loader.start()
 			
 			if (opts.loader && opts.loader is BulkLoader) {
 				this.loader = opts.loader
-				if (!this.loader.hasItem(this._url)) this.loader.add(this._url, { type: BulkLoader.TYPE_IMAGE } )
-				else if(this.loader.get(this._url).isLoaded)this.bitmapData = this.loader.getBitmapData(this._url)
+				
+				if (!this.loader.get(this._url)) this.loader.add(this._url, { type: BulkLoader.TYPE_IMAGE } )
+				else if (this.loader.get(this._url).isLoaded) {
+					this.bitmapData = this.loader.getBitmapData(this._url)
+					super.smoothing = this._smoothing
+					this._bitmap_aspect = this.aspect
+				}
 			}else {
 				this.loader = BulkLoader.createUniqueNamedLoader(opts.num_connections, opts.log_level)
 				this.loader.add(this._url, { type: BulkLoader.TYPE_IMAGE } )
@@ -104,8 +112,12 @@ image_loader.start()
 		 *	Starts the loading, if the element is already loaded, dispatches the Event.COMPLETE event
 		 */
 		public function start():void {
-			if ( this.loader.get(this._url).isLoaded ) this.loader.get(this._url).dispatchEvent(new Event(Event.COMPLETE))
+			if ( this.isLoaded ) this.loader.get(this._url).dispatchEvent(new Event(Event.COMPLETE))
 			else if (!this.loader.isRunning) this.loader.start()
+		}
+		
+		public function get isLoaded():Boolean {
+			return this.loader.get(this._url).isLoaded
 		}
 		
 		/**
@@ -115,13 +127,24 @@ image_loader.start()
 		
 		private function onLoadProgress(event:ProgressEvent):void {	this.dispatchEvent(event.clone()) }
 		private function onLoadComplete(event:Event):void {	
-			if(!this.bitmapData)this.bitmapData = this.loader.getBitmapData(this._url)
+			if (!this.bitmapData) this.bitmapData = this.loader.getBitmapData(this._url)
+			this._bitmap_aspect = this.aspect
+			super.smoothing = this._smoothing
 			this.dispatchEvent(event.clone())
 			
 			if (this._on_load_hash) {
 				this.tween(this._on_load_hash)
 			}
-			
+		}
+		
+		public function get bitmap_aspect():Aspect { return this._bitmap_aspect }
+		
+		override public function get smoothing():Boolean { return _smoothing; }
+		
+		override public function set smoothing(value:Boolean):void 
+		{
+			_smoothing = value;
+			super.smoothing = true
 		}
 	}
 	

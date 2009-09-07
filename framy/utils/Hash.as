@@ -6,13 +6,18 @@ package framy.utils {
 			if(obj)this.merge(obj)
 		}
 		
-		public function map_values(callback:Function):Hash {
+		public function mapValues(callback:Function):Hash {
 			var h:Hash = new Hash()
 			
 			for (var name:String in this) {
 				h[name] = callback(name, this[name])
 			}
 			return h			
+		}
+		
+		public function eachPair(callback:Function, scope:Object=null):Hash {
+			for (var name:String in this)callback.apply(scope || this, [name, this[name]])
+			return this
 		}
 		
 		public function isEmpty():Boolean {
@@ -37,7 +42,12 @@ package framy.utils {
 			return elem
 		}
 		
-		public function withKeys(keys:Array):Hash{
+		public function tweenParams():Hash {
+			return this.withKeys('time','delay','transition')
+		}
+		
+		public function withKeys(...arguments):Hash {
+			var keys:Array = arguments[0] is Array ? arguments[0] : arguments
 			var h:Hash = new Hash()
 			for(var i:uint = 0; i < keys.length; i++){
 				if(this[keys[i]] !== undefined)h[keys[i]] = this[keys[i]]
@@ -45,7 +55,8 @@ package framy.utils {
 			return h
 		}
 		
-		public function withoutKeys(keys:Array):Hash {
+		public function withoutKeys(...arguments):Hash {
+			var keys:Array = arguments[0] is Array ? arguments[0] : arguments
 			var h:Hash = new Hash()
 			for(var name:String in this){
 				if(keys.indexOf(name) < 0)h[name] = this[name]
@@ -53,10 +64,39 @@ package framy.utils {
 			return h
 		}
 		
+		public function filter(callback:Function):Hash {
+			var h:Hash = new Hash()
+			
+			for (var name:String in this) {
+				if(callback(name, this[name]))h[name] = this[name]
+			}
+			return h			
+		}
+		
+		/**
+		 * Remove all elements with value of null or undefined
+		 * @param	callback
+		 * @return
+		 */
+		public function clean():Hash {
+			var h:Hash = new Hash()
+			
+			for (var name:String in this) {
+				if(this[name] !== null && this[name] !== undefined)h[name] = this[name]
+			}
+			return h			
+		}
+		
+		public function get length():Number {
+			var l:Number = 0
+			for (var name:String in this) l++
+			return l
+		}
+		
 		public function diff(other:Object):Hash{
 			var h:Hash = new Hash()
 			for(var name:String in this){
-				if(other[name] === undefined)h[name] = this[name]
+				if(other[name] === undefined || other[name] != this[name])h[name] = this[name]
 			}
 			return h
 		}
@@ -66,7 +106,7 @@ package framy.utils {
 				if( obj[name] !== null){
 					var base_class:String = getQualifiedClassName(this[name])
 					var merge_class:String = getQualifiedClassName(obj[name])
-					if (recursive && ( base_class === 'Object' || base_class === "framy.utils::Hash") && ( merge_class === 'Object' || merge_class === "framy.utils::Hash")) this[name] = new Hash(this[name]).merge(obj[name])
+					if (recursive && ( base_class === 'Object' || base_class === "framy.utils::Hash") && ( merge_class === 'Object' || merge_class === "framy.utils::Hash")) this[name] = new Hash(this[name]).merge(obj[name],recursive)
 					if (extend_functions && this[name] is Function && obj[name] is Function) {
 						var base_func:Function = this[name] ;
 						var extend_func:Function = obj[name] ;
@@ -96,18 +136,13 @@ package framy.utils {
 			return false
 		}
 		
-		public function empty():Boolean {
-			for (var name:String in this) return true
-			return false
-		}
-		
 		public function get values():Array{
 			var v:Array = new Array()
 			for(var name:String in this)v.push(this[name])
 			return v;
 		}
 				
-		public function replace_values(arr:Array):Hash{
+		public function replaceValues(arr:Array):Hash{
 			var i:uint = 0
 			var t:Hash = new Hash(this)
 			for(var name:String in this){
@@ -117,7 +152,7 @@ package framy.utils {
 			return t
 		}
 		
-		public function replace_keys(arr:Array):Hash{
+		public function replaceKeys(arr:Array):Hash{
 			var i:uint = 0
 			var t:Hash = new Hash(this)
 			for(var name:String in this){

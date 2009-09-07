@@ -7,7 +7,14 @@
 	 *  Get the dimensions of this object (width and height) as an Array ([width,height])
 	 */
 	public function get dims():Array { return [this.width, this.height] }
-	public function set dims(value:Array):void { this.width = value[0]; this.height = value[1] }
+	public function set dims(value:*):void { 
+		if(value is Array){
+			this.width = value[0] 
+			this.height = value[1]
+		}else{
+			this.width = this.height = value
+		}
+	}
 	
 	/**
 	 *  Get the position of this object (x and y) as an Array ([x,y])
@@ -20,14 +27,14 @@
 	 *  @see flash.geom.Rectangle  flash.geom.Rectangle
 	 */
 	public function get rect():Rectangle { return new Rectangle(this.x, this.y, this.width, this.height) }
-	public function set rect(value:Rectangle):void { this.x = value.x; this.y = value.y, this.width = value.width; this.height = value.height }
+	public function set rect(value:Rectangle):void { if(!this.rect.equals(value)){this.x = value.x; this.y = value.y, this.width = value.width; this.height = value.height} }
 	
 	/**
 	 *  Get the position and dimenstions of this object (width, height, x and y) as an Aspect object
 	 *  @see framy.utils.Aspect  Aspect
 	 */
 	public function get aspect():Aspect { return new Aspect(this.width, this.height) }
-	public function set aspect(value:Aspect):void { this.x = value.x; this.y = value.y, this.width = value.width; this.height = value.height }
+	public function set aspect(value:Aspect):void { if(!this.rect.equals(value.toRect())){this.x = value.x; this.y = value.y, this.width = value.width; this.height = value.height} }
 	
 	/**
 	 *  Get the position of this object (x and y) as a Point object
@@ -65,9 +72,9 @@
 	 * @param attributes A hash with attributes
 	 * @return Returns itself
 	 */	
-	public function setAttrs(attrs:Object = null):*{
-	  this.attrs = new Hash(attrs)
-	  return this
+	public function setAttrs(...arguments):*{
+		for each(var a:* in arguments)this.attrs = new Hash(a)
+		return this
 	}
 	
 	/**

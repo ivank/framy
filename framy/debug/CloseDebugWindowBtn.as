@@ -7,15 +7,12 @@ package framy.debug
   {
     public function CloseDebugWindowBtn()
     {
-      var content:fySprite = fySprite.newRect({width:20, height:20, alpha: 0})
-      
-      content.graphics.lineStyle(2, 0xFF0000)
-      content.graphics.moveTo(5,5)
-      content.graphics.lineTo(15,15)
-      content.graphics.moveTo(15,5)
-      content.graphics.lineTo(5,15)
-      super(content, { _brightness: 0 }, {_brightness: 0.3 })
+		super(
+			fySprite.newCross( { width: 10, height: 10, color: 'red', line_thickness: 2 } ), 
+			{ _brightness: 0 }, 
+			{ _brightness: 0.3 } 
+		)
+		this.hitarea.setAttrs({x:-5,y:-5, width: 20, height:20 })
     }
-
   }
 }

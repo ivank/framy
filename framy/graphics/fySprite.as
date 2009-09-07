@@ -1,7 +1,11 @@
 ﻿package framy.graphics 
 {
 	import caurina.transitions.Tweener;
+	import flash.display.GradientType;
+	import flash.display.JointStyle;
+	import flash.display.LineScaleMode;
 	import flash.display.Sprite;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.display.DisplayObject;
@@ -28,10 +32,11 @@
 		 *	Creates a fySprite and assigns the attributes to it
 		 *	@constructor
 		 */
-		public function fySprite(attributes:Object = null) 
+		public function fySprite(attributes:Object = null, ...new_children) 
 		{
 			super()
 			this.attrs = attributes
+			this.addChildren(new_children)
 		}
 		
 		/**
@@ -98,13 +103,20 @@ fySprite.newRect({ width: 30, height: 30, color: 'red', alpha: 0.5})
 		 *	@see framy.graphics.fySprite#newPoly newPoly
 		 *	@see framy.graphics.fySprite#newCircle newCircle
 		 */
-		public static function newRect(rect_options:Object = null, attributes:Object = null):fySprite {
+		public static function newRect(rect_options:Object = null, attributes:Object = null):fySprite { return new fySprite().drawRect(rect_options, attributes) }
+		
+		/**
+		 * @see framy.graphics.fySprite#newRect fySprite.newRect    
+		 */
+		public function drawRect(rect_options:Object = null, attributes:Object = null):fySprite {
 			var attrs:Hash = new Hash( { x: 0, y: 0, width: 150, height: 150, round: 0 } ).merge(rect_options)
 			var rect:Rectangle = attrs.rect || new Rectangle(attrs.x, attrs.y, attrs.width, attrs.height)
-			return new fySprite().drawWithFilling(function():void{
+			return this.drawWithFilling(function():void{
 				this.drawRectangleWithRound(rect,attrs)
 			}, rect_options).setAttrs(attributes)
 		}
+		
+		
 		
 		/**
 		 *	Creates a new fySprite and draws a frame (holed rectangle) inside
@@ -119,10 +131,15 @@ fySprite.newFrame({ width: 30, height: 50, color: 'yellow', line_width: 1})
 		 *	@see framy.graphics.fySprite#newPoly newPoly
 		 *	@see framy.graphics.fySprite#newCircle newCircle
 		 */		
-		public static function newFrame(rect_options:Object = null, attributes:Object = null):fySprite {
+		public static function newFrame(rect_options:Object = null, attributes:Object = null):fySprite { return new fySprite().drawFrame(rect_options, attributes) }
+		
+		/**
+		 * @see framy.graphics.fySprite#newFrame fySprite.newFrame    
+		 */		
+		public function drawFrame(rect_options:Object = null, attributes:Object = null):fySprite {
 			var attrs:Hash = new Hash({x: 0, y: 0, width: 50, height: 50, line_width:1}).merge(rect_options)
 			var rect:Rectangle = attrs.rect || new Rectangle(attrs.x, attrs.y, attrs.width, attrs.height)
-			return new fySprite().drawWithFilling(function():void{
+			return this.drawWithFilling(function():void{
 				this.drawRectangleWithRound(rect,attrs)
 				rect.inflate( -attrs.line_width, -attrs.line_width)
 				this.drawRectangleWithRound(rect,attrs)
@@ -147,17 +164,40 @@ fySprite.newPoly([new Point(0,0), new Point(100,50), new Point(0,100)], { color:
 		 *	@see framy.graphics.fySprite#newCircle newCircle
 		 *	@see flash.geom.Point flash.geom.Point
 		 */			
-		public static function newPoly(points:Array, options:Object =null, attributes:Object=null):fySprite {
-		  return new fySprite().drawWithFilling(function():void{
+		public static function newPoly(points:Array, options:Object =null, attributes:Object=null):fySprite { return new fySprite().drawPoly(points, options, attributes) }
+		
+		/**
+		 * @see framy.graphics.fySprite#newPoly fySprite.newPoly    
+		 */	
+		public function drawPoly(points:Array, options:Object =null, attributes:Object=null):fySprite {
+		  return this.drawWithFilling(function():void{
   		  this.graphics.moveTo(points[0].x, points[0].y)
   		  points.push(points.shift())
   		  for each( var p:Point in points)this.graphics.lineTo(p.x,p.y)
 		  },options).setAttrs(attributes)
 		}
+		
+		public static function newCross(options:Object = null, attributes:Object = null):fySprite { return new fySprite().drawCross(options, attributes) }
+			
+		/**
+		 * @see framy.graphics.fySprite#newCross fySprite.newCross    
+		 */				
+		public function drawCross(options:Object = null, attributes:Object = null):fySprite {		
+			var attrs:Hash = new Hash({x: 0, y: 0, width: 50, height: 50, line_thickness:1}).merge(options)
+			var rect:Rectangle = attrs.rect || new Rectangle(attrs.x, attrs.y, attrs.width, attrs.height)
+			return this.drawWithFilling(function():void {
+				this.graphics.moveTo(rect.x, rect.y)
+				this.graphics.lineTo(rect.x+rect.width, rect.y+rect.height)
+				
+				this.graphics.moveTo(rect.x, rect.y + rect.height)
+				this.graphics.lineTo(rect.x + rect.width, rect.y)
+			}, attrs).setAttrs(attributes)
+		}
+		
 
 		/**
 		 *	Creates a new fySprite and draws a circle inside
-		 *	@param	options	 A hash of options, used to create the circle, accepts x, y, radius, color and alpha
+		 *	@param	options	 A hash of options, accepts x, y, radius, color and alpha
 		 *	@param	attributes	 Applies thoes attributes to the whole fySprite after drawing the rectangle
 		 *	@example Create a blue circle with 0.7 alpha of the filling:<listing version="3.0">
 fySprite.newCircle({ radius: 10, x: 10, y:10, color: 'blue', alpha: 0.7})
@@ -167,22 +207,130 @@ fySprite.newCircle({ radius: 10, x: 10, y:10, color: 'blue', alpha: 0.7})
 		 *	@see framy.graphics.fySprite#newPoly newPoly
 		 *	@see framy.graphics.fySprite#newCircle newRect
 		 */
-		public static function newCircle(options:Object =null, attributes:Object=null):fySprite {
-		  var opts:Hash = new Hash({ x:0, y: 0, radius: 50 }).merge(options)
-		  return new fySprite().drawWithFilling(function():void{
-		    this.graphics.drawCircle(opts.x, opts.y, opts.radius)
-		  },options).setAttrs(attributes)
+		public static function newCircle(options:Object = null, attributes:Object = null):fySprite { return new fySprite().drawCircle(options, attributes) }
+		
+		/**
+		 * @see framy.graphics.fySprite#newCircle fySprite.newCircle    
+		 */		
+		public function drawCircle(options:Object = null, attributes:Object = null):fySprite {
+			var opts:Hash = new Hash({ x:0, y: 0, radius: 50 }).merge(options)
+			return this.drawWithFilling(function():void{
+				this.graphics.drawCircle(opts.x, opts.y, opts.radius)
+			},options).setAttrs(attributes)
 		}
 		
 		/**
+		 *	Creates a new fySprite and draws an arc inside
+		 *	@param	options	 A hash of options, accepts x, y, radius, color, angle, start_angle, steps, closed and alpha
+		 *	@param	attributes	 Applies thoes attributes to the whole fySprite after drawing the rectangle
+		 *	@example Create a blue circle with 0.7 alpha of the filling:<listing version="3.0">
+fySprite.newCircle({ radius: 10, x: 10, y:10, color: 'blue', alpha: 0.7})
+	     *  </listing>
+		 *	@return		The created fySprite
+		 *	@see framy.graphics.fySprite#newFrame newFrame
+		 *	@see framy.graphics.fySprite#newPoly newPoly
+		 *	@see framy.graphics.fySprite#newCircle newRect
+		 */		
+		public static function newArc(options:Object = null, attributes:Object = null):fySprite { return new fySprite().drawArc(options, attributes) }
+		
+		
+		/**
+		 * @see framy.graphics.fySprite#drawArc fySprite.drawArc    
+		 */
+		public function drawArc(options:Object = null, attributes:Object = null):fySprite {
+			var opts:Hash = new Hash( { x: 0, y: 0, radius: 50, start_angle: 0, angle: 360, steps: 8, closed: false } ).merge(options)
+			
+			return this.drawWithFilling(function():void {
+				if(Math.abs(opts.angle) > 360)opts.angle = opts.angle % 360
+				
+				opts.angle = Math.PI / 180 * opts.angle
+				var nAngleDelta:Number = opts.angle / 8;
+				var nCtrlDist:Number = opts.radius / Math.cos(nAngleDelta / 2);
+				
+				opts.start_angle = Math.PI / 180 * (opts.start_angle % 360)
+				
+				var nAngle:Number = opts.start_angle;
+				var nCtrlX:Number;
+				var nCtrlY:Number;
+				var nAnchorX:Number;
+				var nAnchorY:Number;
+				
+				var nStartingX:Number = opts.x + Math.cos(opts.start_angle) * opts.radius;
+				var nStartingY:Number = opts.y + Math.sin(opts.start_angle) * opts.radius;
+				
+				if (opts.closed) {
+					this.graphics.moveTo(opts.x, opts.y);
+					this.graphics.lineTo(nStartingX, nStartingY);
+				}
+				else {
+					this.graphics.moveTo(nStartingX, nStartingY);
+				}
+				
+				for (var i:Number = 0; i < 8; i++) {
+					nAngle += nAngleDelta;
+					nCtrlX = opts.x + Math.cos(nAngle-(nAngleDelta/2))*(nCtrlDist);
+					nCtrlY = opts.y + Math.sin(nAngle-(nAngleDelta/2))*(nCtrlDist);
+					nAnchorX = opts.x + Math.cos(nAngle) * opts.radius;
+					nAnchorY = opts.y + Math.sin(nAngle) * opts.radius;
+					this.graphics.curveTo(nCtrlX, nCtrlY, nAnchorX, nAnchorY);
+				}
+				if(opts.closed) {
+					this.graphics.lineTo(opts.x, opts.y);
+				}
+			},new Hash({alpha: 0, line_thickness: 1, line_color: 'black'}).merge(options)).setAttrs(attributes)
+		}
+		
+		/**
+		 * pass a 'gradient' hash to set set a gradient fill
+		 * it has 'type', 'colors', 'alphas', 'ratios' 'rotation' and 'matrix' options, 'colors' array can contain named colors
 		 *	@private
 		 */
-		private function drawWithFilling(draw:Function, options:Object=null):fySprite{
-		  var opts:Hash = new Hash({ color: Initializer.options.color, alpha: 1}).merge(options)
-		  this.graphics.beginFill(Colors.get(opts.color), opts.alpha)
-		  draw.apply(this)
-		  this.graphics.endFill()
-		  return this
+		public function drawWithFilling(draw:Function, options:Object=null):fySprite{
+			var opts:Hash = new Hash( { 
+				line_thickness: 0, 
+				line_color: 'black', 
+				line_alpha: 1, 
+				line_pixel_hinting: false,
+				line_scale_mode: LineScaleMode.NORMAL,
+				line_caps: null,
+				line_joints: null,
+				line_miter_limit: 3,
+				color: Initializer.options.color, 
+				alpha: 1
+			}).merge(options)
+			
+			if (opts.alpha > 0) {
+				if (opts.gradient) {
+					if(opts.gradient is Boolean)opts.gradient = {}
+					opts.gradient.type = opts.gradient.type || GradientType.LINEAR;
+					opts.gradient.colors = opts.gradient.colors || [ 0x000000, 0xFFFFFF ];
+					opts.gradient.colors = opts.gradient.colors.map(function(e:*, i:int, arr:Array):* { return Colors.get(e) } );
+					opts.gradient.alphas = opts.gradient.alphas || new Array(opts.gradient.colors.length).map(function(e:*, i:int, arr:Array):* { return 1 } );
+					opts.gradient.ratios = opts.gradient.ratios || new Array(opts.gradient.colors.length).map(function(e:*, i:int, arr:Array):* { return Math.round(255 * (i / (arr.length-1))) } )
+					if (!opts.gradient.matrix) {
+						opts.gradient.matrix = new Matrix()
+						opts.gradient.matrix.createGradientBox(opts.gradient.width || opts.width || 50, opts.gradient.height || opts.height || 50, opts.gradient.rotation || 0)
+					}
+					this.graphics.beginGradientFill(opts.gradient.type, opts.gradient.colors, opts.gradient.alphas, opts.gradient.ratios, opts.gradient.matrix )
+				}
+				else this.graphics.beginFill(Colors.get(opts.color), opts.alpha)
+			}
+			
+			if (opts.line_thickness > 0) {
+				this.graphics.lineStyle(
+					opts.line_thickness, 
+					Colors.get(opts.line_color), 
+					opts.line_alpha, 
+					opts.line_pixel_hinting, 
+					opts.line_scale_mode, 
+					opts.line_caps, 
+					opts.line_joints, 
+					opts.line_miter_limit) 
+				}
+				
+			draw.apply(this)
+			if (opts.alpha > 0)this.graphics.endFill()
+			return this
 		}
 		
 		/**

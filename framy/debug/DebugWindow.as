@@ -20,8 +20,7 @@ package framy.debug
 		super(attributes);
 		this.title = new fyTextField('normal', { width: 70, y:1, text: title, x: 17 }, new Hash(Initializer.options.debug.text_font).merge( { size: 12 } ))
 		
-		
-		this.close = new CloseDebugWindowBtn()
+		this.close = new CloseDebugWindowBtn().setAttrs({y:5})
 		this.close.addEventListener(MouseEvent.CLICK, this._onCloseWindow)
 		
 		this.bg = fySprite.newRect({ width: 400, height: 500, color: Initializer.options.debug.bg_color})

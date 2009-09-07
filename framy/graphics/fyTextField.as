@@ -1,12 +1,17 @@
 ﻿package framy.graphics 
 {
+import flash.events.Event;
 	import flash.text.StyleSheet;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
+	import framy.model.Model;
+	import framy.routing.Router;
+	import framy.structure.Initializer;
 	import framy.utils.Colors;
 	import framy.utils.Hash;
 	import flash.geom.Point;
 	import caurina.transitions.Tweener;
+	import framy.events.LanguageChangeEvent;
 	
 	/**
 	 * Adds some functionality to the TextField class - easy formatting, styles and html assignment.
@@ -24,6 +29,9 @@
 		static public var _fonts:Hash = new Hash()
 		private var _textFormat:TextFormat
 		private var _styleSheet:StyleSheet
+		private var i18n_content:XMLList
+		private var culture:String = Router.culture
+		private var _html:Boolean = false
 	  
 		/**
 		 *	@private
@@ -74,11 +82,29 @@
 				this.defaultTextFormat = fmt
 			}
 			var text_field_attrs:Hash = format_options.withoutKeys(FORMAT_TEXT_OPTIONS).merge(attributes)
-			this.attrs = Colors.convertColors(text_field_attrs.withoutKeys(['text', 'htmlText']))
-			this.attrs = text_field_attrs.withKeys(['text', 'htmlText'])
+			this.attrs = Colors.convertColors(text_field_attrs.withoutKeys(['text', 'htmlText', 'i18nText']))
+			this.attrs = text_field_attrs.withKeys(['text', 'htmlText', 'i18nText'])
 			super()
+			
+			if (Initializer.options.i18n && this.i18n_content && Initializer.options.i18n.auto_change) {
+				Router.addEventListener(LanguageChangeEvent.START, this.onLanguageChange, false, 0, true);
+			}
 		}
-
+		
+		private function onLanguageChange(event:LanguageChangeEvent):void
+		{
+			this.culture = Router.culture
+			this.dispatchEvent(event.clone())
+			
+			this.tween(new Hash(Initializer.options.i18n.tween).merge( { 
+				_text: this.i18nTextForCulture(this.culture), 
+				onComplete:function():void {
+					this.dispatchEvent(new LanguageChangeEvent(LanguageChangeEvent.FINISH))
+				}
+			}))
+			
+		}
+		
 		/**
 		 *	A proxy for Tweener.addTween(this, arguments)
 		 *	@param	arguments	 Fashes of parameters for the tween, each one is merged with the next
@@ -106,22 +132,53 @@
 		 */
 		override public function set text(value:String):void 
 		{
-			if (this.styleSheet) {
-				this.styleSheet = null
-				this.defaultTextFormat = this._textFormat
+			if (this._html)super.htmlText = value
+			else {
+				if (this.styleSheet) {
+					this.styleSheet = null
+					this.defaultTextFormat = this._textFormat
+				}
+				super.text = value;
 			}
-			super.text = value;
 		}
+		
+		public function set html(value:Boolean):void {
+			this._html = value
+			if (this._html) {
+				if (!this.styleSheet && this._styleSheet) {
+					this.styleSheet = this._styleSheet
+				}
+			}else {
+				if (this.styleSheet) {
+					this.styleSheet = null
+					this.defaultTextFormat = this._textFormat
+				}
+			}
+		}
+		
+		public function get html():Boolean { return this._html }
 		
 		/**
 		 *	If it has a stylesheet, enables it and removes default formating
 		 */
 		override public function set htmlText(value:String):void 
 		{
-			if (!this.styleSheet && this._styleSheet) {
-				this.styleSheet = this._styleSheet
-			}
+			this.html = true
 			super.htmlText = value;
+		}
+		
+		public function set i18nText(value:XMLList):void {
+			this.i18n_content = value
+			
+			this.text = this.i18nTextForCulture(this.culture)
+		}
+		
+		public function get i18nText():XMLList {
+			return this.i18n_content
+		}
+		
+		public function i18nTextForCulture(culture:String):String {
+			return Model.i18nIext(this.i18n_content, culture)
 		}
 		
 		/**

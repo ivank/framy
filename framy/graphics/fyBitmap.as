@@ -1,6 +1,7 @@
 ﻿package framy.graphics 
 {
 	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import framy.utils.Hash;
@@ -18,14 +19,17 @@
 		
 		static public const RESAMPLE_INVOKERS:Array = ['scaleX', 'scaleY', 'width', 'height', 'alpha']
 		
+		
 		/**
 		 *	creates a new bitmap - the same as the Bitmap class, but allows setting default attributes
-		 *	@param	attributes	 a hash of attributes to be applyed on creation
+		 *	@param	attributes	 a hash of attributes to be applyed on creation, or a BitmapData object, or a Bitmap object
 		 *	@constructor
 		 */
-		public function fyBitmap(attributes:Object = null)
+		public function fyBitmap(attributes:* = null)
 		{
-			this.attrs = attributes
+			if (attributes is BitmapData) this.bitmapData = attributes as BitmapData;
+			else if ( attributes is Bitmap) this.bitmapData = (attributes as Bitmap).bitmapData;
+			else this.attrs = attributes
 		}
 		
 		/**

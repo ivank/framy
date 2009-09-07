@@ -1,11 +1,15 @@
 ﻿package framy.structure 
 {
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.utils.Dictionary;
+	import framy.animation.Animation;
 	import framy.animation.Sequence;
-	import framy.animation.WidgetTween;
 	import framy.events.ChangeEvent;
 	import framy.routing.Router;
+	import framy.utils.ArrayTools;
 	import framy.utils.Aspect;
 	import framy.utils.Hash
 	import framy.utils.NumberTools;
@@ -15,120 +19,85 @@
 	 * ...
 	 * @author IvanK (ikerin@gmail.com)
 	 */
-	public class WidgetView 
+	public class WidgetView extends EventDispatcher
 	{
 		private var _name:String
 		private var _full_name:String
 		private var _classifyed_view:String
-		private var _attributes:Hash
 		private var _view:String
-		private var _child_views:Array
-		private var _animation:Sequence = new Sequence()
+		private var _child_views:Array = new Array()
 		private var _start:Hash = new Hash()
 		private var _widget_container:WidgetContainer
-		private var _parameters:Hash = new Hash()
+		private var _content_attrs:Hash = new Hash()
 		private var _state:uint = 0
-		private var _rounded:Boolean = true
-		private var _reload:Boolean = false
-		private var _position:String  = null
-		private var _resize:Hash
-		private var _start_resize:Boolean = false
-		private var _cached_calculated_attributes:Hash
-		private var _arguments:Array
-		
+		private var _cached_calculated_content_position:Hash
+		private var _content_position:Hash
+		private var _options:Hash
+		private var _animation:Animation
 		
 		static public const DIMENISION_AUTO:String = "auto"
 		
-		public function WidgetView(name:String, view:String, options:Object = null, ...arguments) 
+		public function WidgetView(name:String, view:String, position: Object, options:Object = null, attrs:Object = null, ...arguments)
 		{
-			var opts:Hash = new Hash(options)
-			this._arguments = arguments
+			this._options = new Hash( {
+				rounded: true,
+				reload: true,
+				position: null,
+				parameters: null,
+				loader: null,
+				loader_auto_start: false,
+				resize: new Hash(),
+				resize_on_start: false
+			}).merge(options)
 			
+			this._options.parameters = new Hash(this._options.parameters)
 			this._name = name
 			this._full_name = this._name
 			this._view = view
 			this._classifyed_view = StringTools.classify(view)
+			this._content_position = new Hash(position)
+			this._content_attrs = new Hash(attrs)
 			
-			if (opts.rounded !== undefined) {
-				this._rounded = opts.rounded
-				delete opts.rounded
-			}
-			if (opts.reload !== undefined) {
-				this._reload = opts.reload
-				delete opts.reload
-			}			
-			
-			if (opts.position !== undefined) {
-				this._position = options.position
-				delete opts.position
-			}
-			if (opts.parameters !== undefined) {
-				this._parameters = new Hash(options.parameters)
-				delete opts.parameters
-			}
-			if (opts.resize !== undefined) {
-				this._resize = new Hash(options.resize)
-				delete opts.resize
-			}
-			if (opts.start_resize !== undefined) {
-				this._start_resize = options.start_resize
-				delete opts.start_resize
-			}
-			
-			if (opts.widgets) {
-				if (!(opts.widgets is Array)) throw Error('"widgets" is reserved for child widgets of this widget, please provide an array of WidgetView objects')
-				this._child_views = new Array()
-				for each( var child_view:WidgetView in opts.widgets)
+			if (arguments && arguments.length) {
+				for each( var child_view:WidgetView in ArrayTools.flatten(arguments))
 					child_view.setParentView(this)
-					
-				delete opts.widgets
 			}
-			this._attributes = new Hash(opts)
 		}
 		
 		public function setParentView(parent_view:WidgetView):void {
 			parent_view._child_views.push(this)
-			this._full_name = parent_view._name+'.'+this._full_name
+			this._full_name = parent_view._name + '.' + this._full_name
 		}
-		
-		public function get progressEvent():String { return ChangeEvent.PROGRESS+this.classifyed_view }
-		public function get lastProgressEvent():String { return ChangeEvent.LAST_PROGRESS+this.classifyed_view }
-		public function get firstProgressEvent():String { return ChangeEvent.FIRST_PROGRESS + this.classifyed_view }
-		
-		public function get startEvent():String { return ChangeEvent.START+this.classifyed_view }
-		public function get firstStartEvent():String { return ChangeEvent.FIRST_START + this.classifyed_view }
-		public function get lastStartEvent():String { return ChangeEvent.LAST_START + this.classifyed_view }
-		
-		public function get finishEvent():String { return ChangeEvent.FINISH+this.classifyed_view }
-		public function get firstFinishEvent():String { return ChangeEvent.FIRST_FINISH + this.classifyed_view }
-		public function get lastFinishEvent():String { return ChangeEvent.LAST_FINISH + this.classifyed_view }
 		
 		public function setWidgetContainer(container:WidgetContainer):void { this._widget_container = container }
 
-		public function get widget_arguments():Array { return this._arguments }
-		public function get position():String { return this._position }
+		public function get content_position():Hash { return this._content_position }
+		public function get content_attrs():Hash { return this._content_attrs }
+		public function get position():String { return _options.position }
 		public function get classifyed_view():String { return this._classifyed_view }
-		public function get reload():Boolean { return this._reload }
-		public function get parameters():Hash { return this._parameters }
-		public function get start_resize():Boolean { return this._start_resize }
-		public function get resize():Hash { return this._resize }
-		public function get current_unique_id():String { 
-			return this._name+(this._parameters.isEmpty() ? '' : '_'+this._parameters.map_values(function(k:String, v:*):*{return (v == 'current') ? Router.parameters[k] : v}).toId()) 
+		public function get reload():Boolean { return this._options.reload }
+
+		public function get parameters():Hash { return this._options.parameters }
+		public function get resize_on_start():Boolean { return this._options.resize_on_start }
+		public function get resize():Hash { return this._options.resize }
+		public function get loader():String { return this._options.loader ? this._options.loader.replace(/\(.*\)/, '') : null }
+		public function get loader_auto_start():Boolean { return this._options.loader_auto_start }
+		public function get loader_unique_id():String { return this._options.loader.replace(/([a-z_]+)\:current/,function():String{ return arguments[1]+':'+Router.parameters[arguments[1]] }) }
+		public function get current_unique_id():String { return this._name + this.parameters_extension }
+		
+		private function get parameters_extension():String {
+			return (this.parameters.isEmpty() ? '' : '_'+this.parameters.mapValues(function(k:String, v:*):*{return (v == 'current') ? Router.parameters[k] : v}).toId())
 		}
 		
 		public function get full_name():String { return _full_name }
-		public function setTween(t:WidgetTween):void { 
-			this._animation.merge(t.animation)
-		}
 		
-		public function get calculated_attributes():Hash {
-			if (this._state == Router.current_state) return _cached_calculated_attributes
+		public function get calculated_content_position():Hash {
+			if (this._state == Router.current_state) return _cached_calculated_content_position
 			this._state = Router.current_state
-			
 			var cal_attrs:Hash = new Hash()
 			var second_pass_attrs:Array = new Array()
-			for (var name:String in this._attributes) {
-				var attr:* = this._attributes[name]
+			for (var name:String in this._content_position) {
+				var attr:* = this._content_position[name]
 				
 				if (name == 'right' || name == 'bottom') second_pass_attrs.push(name)
 				
@@ -162,6 +131,7 @@
 				for each( var second_pass_name:String in second_pass_attrs) {
 					if (second_pass_name == 'x') cal_attrs[second_pass_name] = (this.widget_container.containerWidth - (cal_attrs['width'] || this.widget.contentWidth)) / 2
 					if (second_pass_name == 'y') cal_attrs[second_pass_name] = (this.widget_container.containerHeight - (cal_attrs['height'] || this.widget.contentHeight)) / 2
+					
 					if (second_pass_name == 'right') {
 						cal_attrs['x'] = this.widget_container.containerWidth - (cal_attrs['width'] === undefined ? this.widget.contentWidth : cal_attrs['width']) + cal_attrs[second_pass_name]
 						delete cal_attrs[second_pass_name]
@@ -175,15 +145,28 @@
 			}
 			for ( var n:String in cal_attrs) if (n == 'top' || n == 'bottom' || n == 'left' || n == 'right') delete cal_attrs[n];
 			
-			if (this._rounded) cal_attrs = cal_attrs.map_values(function(name:String, val:*):*{ return Math.round(val) } )
+			if (this._options.rounded) cal_attrs = cal_attrs.mapValues(function(name:String, val:*):*{ return Math.round(val) } )
 			
-			return _cached_calculated_attributes = cal_attrs
+			return _cached_calculated_content_position = cal_attrs
 		}
 		
-		public function get animation_attributes():Sequence {
-		  if(!this._animation.length)this._animation.merge(this.calculated_attributes)
-			this._animation.extend(this.calculated_attributes)
-			return this._animation.offsetFrom(this.calculated_attributes)
+		public function startAnimation(_content:*):void {
+			if (this._animation) {
+				this._animation.addEventListener(Event.COMPLETE, this.onAnimationComplete, false, 0, true)
+				this._animation.start(calculated_content_position , _content)
+			} else {
+				_content.attrs = calculated_content_position
+				this.onAnimationComplete()
+			}
+		}
+		
+		private function onAnimationComplete(event:Event=null):void
+		{
+			this.dispatchEvent(new Event(Event.COMPLETE))
+		}
+		
+		public function setAnimation(anim:Animation):void {
+			this._animation = anim
 		}
 		
 		public function get widget():Widget {
@@ -204,8 +187,8 @@
 		public function get view():String { return _view }
 		public function get child_views():Array { return this._child_views }
 		
-		public function toString():String {
-			return "[WidgetView name="+_name+" view="+_view+" attributes="+_attributes+"]"
+		override public function toString():String {
+			return "[WidgetView name="+current_unique_id+" view="+_view+" attributes="+_content_position+"]"
 		}
 	}
 	

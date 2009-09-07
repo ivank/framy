@@ -34,9 +34,11 @@
 			this.container.stage.align = StageAlign.TOP_LEFT;
 			this.container.stage.addEventListener(Event.RESIZE, this._onStageResize)
 			this._resize_timer.addEventListener(TimerEvent.TIMER_COMPLETE, this._onResize)
+			
 		}
 		
 		private function _onStageResize(event:Event):void {
+			Router.stateChanged()
 			this.container.dispatchEvent(new Event(START_RESIZE))
 			if (Initializer.options.resize.wait) {
 			  this._resize_timer.delay = Initializer.options.resize.wait * 1000
@@ -47,8 +49,9 @@
 			else this.container.dispatchEvent(event.clone())
 		}
 		
+
+		
 		private function _onResize(event:TimerEvent):void {
-			Router.stateChanged()
 			this.container.dispatchEvent(this._captured_resize_event)
 		}
 		
@@ -59,6 +62,11 @@
 		static public function get stage():Stage { return _instance.container.stage }
 		static public function get stageWidth():int { return _instance.containerWidth }
 		static public function get stageHeight():int { return _instance.containerHeight }
+		static public function get stageRatio():int { return _instance.containerWidth / _instance.containerHeight }
+		
+		static public function resizeAll():void {
+			_instance.container.stage.dispatchEvent(new Event(Event.RESIZE))
+		}		
 		
 		static public function get instance():RootWidgetContainer {	return _instance }
 		
@@ -67,7 +75,8 @@
 		}
 		
 		static public function getContent(id:String):* {
-			return getWidget(id).content
+			var w:Widget = getWidget(id)
+			return w ? w.content : null
 		}
 		
 		static public function getWidget(id:String):Widget {

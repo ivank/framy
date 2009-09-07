@@ -1,5 +1,6 @@
 ﻿package framy.routing 
 {
+	import framy.utils.ArrayTools;
 	import framy.utils.Hash;
 	
 	/**
@@ -29,6 +30,20 @@
 		public function goTo():void {
 			Router.redirectTo(this._page, this.parameters)
 		}
+		
+		public function hasPageName(...arguments):Boolean {
+			return ArrayTools.flatten(arguments).indexOf(page_name) >= 0
+		}
+		
+		public function sameParameters(...arguments):Boolean {
+			var args:Array = ArrayTools.flatten(arguments)
+			var same:Boolean = true
+			parameters.eachPair(function(key:String, value:*):void {
+				if (ArrayTools.has(args, key) && value != Router.parameters[key]) same = false
+			} )
+			return same
+		}
+		
 	}
 	
 }

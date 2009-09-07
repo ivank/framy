@@ -11,6 +11,10 @@
 		
 		public function NumberTools() {	throw new StaticClassError() }
 		
+		static public function boundrary(n:Number, from:Number=0, to:Number=1):Number{
+		  return  Math.max(Math.min(n, to),from)
+		}		
+		
 		/**
 		 *	Takes a number in the 0-1 range and scales it to fit in the given boundaries
 		 *	</listing>

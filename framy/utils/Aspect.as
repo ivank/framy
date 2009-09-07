@@ -11,6 +11,7 @@ package framy.utils {
 	 *  @since  28.12.2008
 	 */
 	public class Aspect {
+		
 		private var _width:Number = 0
 		private var _height:Number = 0
 		
@@ -60,12 +61,22 @@ img.aspect = img_aspect.inflate(30,30).center(600,600)
 		/**
 		 *	get x + width
 		 */
-		public function get left():Number { return this._x + this._width }
+		public function get right():Number { return this._x + this._width }
 		
 		/**
 		 *	get y + height
 		 */
 		public function get bottom():Number { return this._y + this._height }
+		
+		/**
+		 *	set y + height(const)
+		 */
+		public function set bottom(value:Number):void { this._y = value - this._height }		
+
+		/**
+		 *	set x + width(const)
+		 */
+		public function set right(value:Number):void { this._x = value - this._width }		
 		
 		
 		public function set width(w:Number):void{
@@ -73,7 +84,7 @@ img.aspect = img_aspect.inflate(30,30).center(600,600)
 			this._width = w
 		}
 		public function dup():Aspect {
-			return new Aspect(this._width, this._height)
+			return new Aspect(this._width, this._height).setAttrs({x:this._x, y:this._y})
 		}
 
 		public function set height(h:Number):void{
@@ -105,7 +116,6 @@ img.aspect = img_aspect.inflate(30,30).center(600,600)
 				this.height = h
 				this._x = (w - this._width) / 2.0
 			}
-			
 			return this
 		}
 		
@@ -113,25 +123,10 @@ img.aspect = img_aspect.inflate(30,30).center(600,600)
 		 *	@return Returns itself
 		 */
 		public function inflate(w:Number, h:Number):Aspect {
-			this._x = this._y = 0
-			if ((w / h) < this.ratio) {
-				if ( this.width < w) {
-					this.width = w
-					this._y = (h - this._height) / 2.0
-				}else {
-					this._x = Math.round((w - this._width) / 2.0)
-					this._y = Math.round((h - this._height) / 2.0)					
-				}
-			}
-			else {
-				if(this.height < h){
-					this.height = h
-					this._x = (w - this._width) / 2.0
-				}else {
-					this._x = Math.round((w - this._width) / 2.0)
-					this._y = Math.round((h - this._height) / 2.0)					
-				}
-			}
+			this._width += w
+			this._height += h
+			this._x -= w/2
+			this._y -= h/2
 			
 			return this
 			
@@ -162,14 +157,51 @@ img.aspect = img_aspect.inflate(30,30).center(600,600)
 		 *	@return		Return itself
 		 */
 		public function center(w:Number, h:Number):Aspect {
-			this._x = Math.round((w - this._width) / 2.0)
-			this._y = Math.round((h - this._height) / 2.0)
+			return this.relative(w,h, 0.5, 0.5)
+		}
+		
+		/**
+		 * Position an element in a relative position of the parent
+		 *	@return		Return itself
+		 */
+		public function relative(w:Number, h:Number, xPart:Number, yPart:Number):Aspect {
+			this._x = ((w - this._width) * xPart)
+			this._y = ((h - this._height) * yPart)
+			return this
+		}
+		
+		public function roundAll():Aspect {
+			this._x = Math.round(this._x)
+			this._y = Math.round(this._y)
+			this._width = Math.round(this._width)
+			this._height = Math.round(this._height)
 			return this
 		}
 		
 		public function toString():String{
 			return "[Aspect] { x: "+this._x+", y:"+this._y+",  width:"+this._width+", height:"+this._height+" }"
 		}
+		
+		/**
+		 * Apply attributes as a hash, for example { x:10, height:20 } will set the x and height respectively
+		 * @param attributes A hash with attributes
+		 * @return Returns itself
+		 */	
+		public function setAttrs(attrs:Object = null):Aspect{
+		  this.attrs = new Hash(attrs)
+		  return this
+		}
+		
+		/**
+		 * Apply attributes as a hash, for example { x:10, height:20 } will set the x and height respectively
+		 * @param attributes A hash with attributes
+		 */
+		public function set attrs(attributes:Object):* {
+			if(attributes)for (var n:String in attributes) this[n] = attributes[n]
+			return attributes
+		}
+		
+		public function get attrs():Object{ return { x: _x, y: _y, width: _width, height: _height } }
 	}
 	
 }

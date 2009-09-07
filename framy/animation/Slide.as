@@ -7,7 +7,9 @@ package framy.animation {
 	import framy.utils.Hash;
 	
 	/**
-	 * Allows defininig a "slide box" with a magnifier-like scroll effect within
+	 * Allows defininig a "slide box" with a magnifier-like scroll effect within, When the mouse moves over the box,
+	 * thie inner box is moved proportionaly, so that you can slide through all the width of the inner object,
+	 * while sliding the smaller width of the container
 	 */
 	public class Slide {
 		private var holder:DisplayObject

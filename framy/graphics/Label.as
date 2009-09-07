@@ -1,5 +1,6 @@
 ﻿package framy.graphics {
 	import caurina.transitions.Tweener;
+	import flash.geom.Rectangle;
 	import framy.graphics.fySprite;
 	import flash.display.DisplayObject;
 	import flash.events.MouseEvent;
@@ -49,12 +50,14 @@ btn.addEventListener(MouseEvent.CLICK, function(event:MouseEvent):void{
 		public function Label(content:DisplayObject, idle:Object=null, over:Object=null, select:Object = null) {
 			this._content = content
 			
-			this._hitarea = fySprite.newRect( { width: this.content.width, height: this.content.height }, {alpha: 0})
+			var content_bounds:Rectangle = this.content.getBounds(this)
+			this._hitarea = fySprite.newRect( { width: content_bounds.width, height: content_bounds.height}, {alpha: 0, x:content_bounds.x, y:content_bounds.y})
+			
 			
 			this.mouseChildren = false
 			this.buttonMode = true
 			
-			this.addChildren(this._content, this._hitarea)
+			this.addChildren(this._hitarea, this._content)
 			if(idle)this.addEventListener(MouseEvent.ROLL_OUT, this.onOut)
 			if(over)this.addEventListener(MouseEvent.ROLL_OVER, this.onOver)
 			
@@ -89,6 +92,17 @@ btn.addEventListener(MouseEvent.CLICK, function(event:MouseEvent):void{
 		 */
 		public function get hitarea():fySprite { return _hitarea }
 		
+		public function centerHitarea():Label {
+			this.hitarea.pos = this.hitarea.aspect.center(0, 0).pos
+			return this
+		}
+		
+		public function inflateHitarea(value:Number):Label {
+			this.hitarea.inflate(value, value)
+			return this
+		}
+		
+		
 		/**
 		 *	@private
 		 */
@@ -112,10 +126,10 @@ btn.addEventListener(MouseEvent.CLICK, function(event:MouseEvent):void{
 		}
 		
 		public function set selected(val:Boolean):void {
+			this.mouseEnabled = !val
+			this.buttonMode = !val
 			if(val != _selected){
 				this._selected = val
-				this.mouseEnabled = !val
-				this.buttonMode = !val
 				
 				if (val) Tweener.addTween(this._content, this.select)
 				else Tweener.addTween(this._content, this.idle)

@@ -1,5 +1,6 @@
 ﻿package framy.structure 
 {
+	import caurina.transitions.Tweener;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.text.AntiAliasType;
@@ -20,9 +21,13 @@
 	public class Initializer extends Sprite
 	{
 		static private var _options:Hash = new Hash({
-			resize: { tween: { transition: 'easeInOutSine', time: 0.6 }, wait: 0.3 },
+			resize: { tween: { transition: 'easeInOutSine', time: 0.6 }, wait: 0.3, parameters: [], default_parameters: ['x', 'y', 'width', 'height', 'scaleX', 'scaleY'] },
 			auto_change_events: true, 
 			color: 'black',
+			i18n: {
+				auto_change: true, 
+				tween: { time: 1, transition: 'easeOutCubic' }
+			},
 			text: { 
 				normal: { embedFonts:true, autoSize: TextFieldAutoSize.LEFT, selectable: false, font: 'NormalFont', color: 'red', antiAliasType: AntiAliasType.ADVANCED, gridFitType: GridFitType.PIXEL },
 				bold: { font: 'BoldFont', bold: true },
@@ -53,6 +58,7 @@
 		static private var _widget_contents:Dictionary = new Dictionary(true)
 		static private var _widgets_count:uint = 0
 		
+		
 		public function Initializer():void 
 		{
 			if (stage) _init();
@@ -66,6 +72,12 @@
 		 *			<ul>
 		 *				<li>tween - merged with the tween at resizing, default is { transition: 'easeInOutSine', time: 0.6 }</li>
 		 *				<li>wait - wait before the resize tween is executed - somoother result for webkit browsers</li>
+		 *			</ul>
+		 *		</li>
+		 *		<li>i18n - a hash with
+		 *			<ul>
+		 *				<li>tween - the tween of automatic change of text when fy_culture has been changed, default is { time: 0.5, transition: 'easeOutSine' }</li>
+		 *				<li>auto_change - change the text when fy_culture has been changed in the routing</li>
 		 *			</ul>
 		 *		</li>
 		 *		<li>default_tween - this is added to all page transitions, defaults to { transition: 'easeOutCubic' }</li>
@@ -99,7 +111,7 @@ this.setOptions({
 })
 		 *	</listing>
 		 */
-		protected function setOptions(options:Object = null):void{
+		protected function setOptions(options:Object = null):void {
 			Initializer._options.merge(options)
 		}
 		
@@ -155,6 +167,7 @@ this.setFonts( {
 			new RootWidgetContainer(this)
 			CustomEasings.init()
 			this.init();
+			Tweener.addTween(this, { time: 0.1, onComplete: function():void { RootWidgetContainer.resizeAll() } } )
 		}
 		
 		/**

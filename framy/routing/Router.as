@@ -1,10 +1,14 @@
 ﻿package framy.routing 
 {
+	import caurina.transitions.Tweener;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import framy.debug.DebugPanel;
+	import framy.events.LanguageChangeEvent;
+	import framy.structure.Initializer;
+	import framy.utils.ArrayTools;
 	import swfaddress.SWFAddress;
 	import swfaddress.SWFAddressEvent;
+	import framy.model.Model;
 	import framy.errors.StaticClassError;
 	import framy.structure.Page;
 	import framy.utils.FunctionTools;
@@ -24,6 +28,7 @@
 	public class Router 
 	{
 		static private var _dispatcher:EventDispatcher = new EventDispatcher()
+		static private var _dispatched_events:Array = new Array()
 		static private var _routes:Array = new Array()
 		static private var _routes_hash:Hash = new Hash()
 		static private var _current_page:Page
@@ -32,6 +37,7 @@
 		static private var _current_state:uint = 0
 		static private var _history:Array = new Array()
 		static private var _current_point:HistoryPoint
+		static private var _culture:String = 'en';
 		
 		/**
 		 *	@private
@@ -40,7 +46,6 @@
 			SWFAddress.addEventListener(SWFAddressEvent.CHANGE, onRouteChanged)
 		}
 		
-
 		static private function onRouteChanged(e:SWFAddressEvent):void 
 		{
 			for each (var r:Route in _routes) {
@@ -64,10 +69,8 @@
 		 *	@private
 		 */
 		static public function addRoute(route:Route):void {
-			if (!_routes_hash.has(route.page_name)) {
-				_routes.push(route)
-				_routes_hash[route.page_name] = route
-			}else throw Error("A route with this name (" + route.page_name + ") is already defined, please choose another name")
+			_routes.push(route)
+			_routes_hash[route.page_name] = route
 		}
 		
 		/**
@@ -75,29 +78,54 @@
 		 *	@private
 		 */
 		static private function goToPage(page_name:String, parameters:Object = null):void {
+			ArrayTools.clear(_dispatched_events)
 			stateChanged()
 			
-			_old_page = _current_page
-			if(_old_page)_old_page.dispatchEvent(new Event(Event.REMOVED))
+			processMagicParameters(parameters)
 			
-			_current_page = Page.create(page_name, parameters)
-			_current_parameters = new Hash(parameters)
-			
-			_history.push(_current_point = new HistoryPoint(page_name, current_state, _current_parameters))
-			if (_current_page.title) SWFAddress.setTitle(_current_page.title)
-			
-			Page.transition(_old_page, _current_page)
-		  _dispatcher.dispatchEvent(new Event(Event.CHANGE))
+			if (!_current_page || _current_page.name != page_name || !ArrayTools.is_empty(Router.parameters.diff(parameters).keys)) {
+				_old_page = _current_page
+				if(_old_page)_old_page.dispatchEvent(new Event(Event.REMOVED))
+				
+				_current_parameters = new Hash(parameters)
+				
+				_current_page = Page.create(page_name, parameters)
+				
+				_history.push(_current_point = new HistoryPoint(page_name, current_state, _current_parameters))
+				if (_current_page.title) SWFAddress.setTitle(_current_page.title)
+				
+				Page.transition(_old_page, _current_page)
+				_dispatcher.dispatchEvent(new Event(Event.CHANGE))
+			}
 		}
 		
 		/**
 		 *	Redirect the page to another one, providing page_name and parameters. If a route to this page exists, changes the browser url to match the page
 		 */
 		static public function redirectTo(page_name:String, parameters:Object = null):void {
-			if(_routes_hash[page_name])
+			if (_routes_hash[page_name]) {
+				parameters = addMagicParameters(parameters)
 				SWFAddress.setValue(_routes_hash[page_name].constructUrl(parameters))
-			else 
+			} else {
 				goToPage(page_name, parameters)
+			}
+		}
+		
+		static private function addMagicParameters(parmas:Object):Hash {
+			return new Hash( { fy_culture: Router.culture } ).merge(parmas)
+		}
+		
+		static private function processMagicParameters(params:Object):void {
+			var magic_params:Hash = new Hash(params)
+			
+			if (magic_params.has('fy_culture') && magic_params.fy_culture != Router.culture) {
+				Router.parameters.fy_culture = Router._culture = magic_params.fy_culture
+				Router._dispatcher.dispatchEvent(new LanguageChangeEvent(LanguageChangeEvent.START))
+				Tweener.addTween(Router._dispatcher, new Hash(Initializer.options.i18n.tween).merge( { onComplete:function():void {
+					Router._dispatcher.dispatchEvent(new LanguageChangeEvent(LanguageChangeEvent.FINISH))
+				} } ) )
+			}
+
 		}
 		
 		static public function get history_length():uint { return _history.length }
@@ -107,9 +135,15 @@
 		 *	@param	where	 offset from the current point
 		 *	@see framy.routing.HistoryPoint		HistoryPoint
 		 */
-		static public function history(where:int = 0):HistoryPoint { 
-			return _history[_history.indexOf(_current_point)+where]
-		}
+		static public function history(...arguments):HistoryPoint { 
+			if (arguments.length == 1 && arguments[0] is int) {
+				return _history[_history.indexOf(_current_point) + arguments[0]]
+			} else {
+				for each(var history_point:HistoryPoint in ArrayTools.flatten(_history).reverse())
+					if (ArrayTools.has(arguments, history_point.page_name)) return history_point;
+				return null
+			}
+		}		
 		
 		/**
 		 *	@private
@@ -138,6 +172,8 @@
 		 */
 		static public function get old_page():Page { return _old_page }
 		
+		static public function get culture():String { return _culture; }
+		
 		/**
 		 *	@private
 		 */
@@ -157,8 +193,9 @@
 		 * @param type Event type.
 		 * @param listener Event listener.
 		 */
-		static public function addEventListener(type:String, listener:Function):void {
-			_dispatcher.addEventListener(type, listener, false, 0, false);
+		static public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeekReferance:Boolean = false):void {
+			
+			_dispatcher.addEventListener(type, listener, useCapture, priority, useWeekReferance);
 		}
 
 		/**
@@ -170,6 +207,19 @@
 			_dispatcher.removeEventListener(type, listener, false);
 		}					
 		
+		static public function hasEventListener(type:String):Boolean {
+			return _dispatcher.hasEventListener(type);
+		}
+		
+		static public function sendEvent(type:String):void {
+			if(!ArrayTools.has(_dispatched_events, type))_dispatched_events.push(type)
+			_dispatcher.dispatchEvent(new Event(type))
+		}
+		
+		
+		static public function alreadyDispatched(type:String):Boolean {
+			return ArrayTools.has(_dispatched_events, type)
+		}
 	}
 	
 }

@@ -1,7 +1,9 @@
 package framy.structure
 {
+  import flash.display.Sprite;
   import flash.utils.Dictionary;
   import framy.errors.AbstractMethodError;
+  import framy.errors.WidgetError;
   import framy.routing.Router;
   import framy.utils.ArrayTools;
   import framy.utils.Hash;
@@ -40,7 +42,8 @@ package framy.structure
 	
 	public function removeWidget(widget:Widget):void {
 		_widgets = ArrayTools.remove(_widgets, widget)
-		this.container.removeChild(widget.content)
+		if(widget.content && this.container.contains(widget.content))
+			this.container.removeChild(widget.content)
 		_widgets_hash[widget.unique_id] = null
 	}
 	
@@ -49,29 +52,38 @@ package framy.structure
 	public function getPrevious(widget:Widget, back_count:int):Widget { return this.getRelative( widget, -back_count) }
 	
 	public function change(widget_views:Array):void {
+		var remaining_widgets:Array = this.prepareViews.apply(this,widget_views)
 		
-		for each(var w:Widget in this.applyViews.apply(this, widget_views)) {
-			var view:WidgetView = new WidgetView(w.full_name, 'destroy', {x : w.content.x, y: w.content.y, width: w.content.width, height: w.content.height} )
+		for each(var w:Widget in remaining_widgets) {
+			var view:WidgetView = new WidgetView(w.full_name, 'destroy', { x : w.content.x, y: w.content.y } )
 			view.setWidgetContainer(this)
 			if (Router.current_page) Router.current_page.applyAnimationFor(view, Router.old_page)
 			w.morphTo(view)
 		}
+		
+		for each(var widget_view:WidgetView in widget_views) {
+			this.getWidgetForViewStrict(widget_view).morphTo(widget_view)
+		}
 	}
 	
-	public function applyViews(...arguments):Array {
+	public function applyViews(...arguments):void {
+		this.prepareViews(arguments)
+		for each(var widget_view:WidgetView in arguments) { {
+			this.getWidgetForViewStrict(widget_view).morphTo(widget_view) }
+		}		
+	}	
+	
+	public function prepareViews(...arguments):Array {
 		var remaining_widgets:Array = this._widgets.slice()
 		
 		for each(var widget_view:WidgetView in arguments) {
-			var widget:Widget = this.getWidgetForView(widget_view) || this.addWidget(new Widget(this, widget_view.name, Router.parameters.withKeys(widget_view.parameters.keys), widget_view.widget_arguments))
+			var widget:Widget = this.getWidgetForView(widget_view) || this.addWidget(new Widget(this, widget_view.name, Router.parameters.withKeys(widget_view.parameters.keys)))
 			
 			widget_view.setWidgetContainer(this)
 			if(widget_view.position !== null)this.positionElement(widget_view.position, widget)
 			remaining_widgets = ArrayTools.remove(remaining_widgets,widget)
 		}
-		
-		for each(widget_view in arguments) { {
-			this.getWidgetForView(widget_view).morphTo(widget_view) }
-		}
+
 		return remaining_widgets
 	}
 	
@@ -97,6 +109,12 @@ package framy.structure
 	
 	public function getWidgetForView(widget_view:WidgetView):Widget { 
 		return getWidgetForId(widget_view.current_unique_id)
+	}
+	
+	public function getWidgetForViewStrict(widget_view:WidgetView):Widget { 
+		var widget:Widget = this.getWidgetForView(widget_view)
+		if(!widget)throw new WidgetError("Widget for view "+widget_view.full_name+" not found in "+this)
+		return widget
 	}
 	
 	public function get containerWidth():int { return _parent_widget ? _parent_widget.contentWidth : RootWidgetContainer.stageWidth }

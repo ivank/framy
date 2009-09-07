@@ -4,9 +4,10 @@
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.utils.getDefinitionByName;
-	import framy.animation.TweenGroup;
-	import framy.animation.WidgetTween;
+	import framy.animation.Animation;
+	import framy.animation.AnimationGroup;
 	import framy.debug.PagesWindow;
+	import framy.errors.PageError;
 	import framy.utils.ArrayTools;
 	import framy.utils.FunctionTools;
 	import framy.utils.Hash;
@@ -22,23 +23,28 @@
 	public class Page extends EventDispatcher
 	{
 		private var _widget_views:Array = new Array()
-		private var _tweens:Array = new Array()
+		private var _animations:Array = new Array()
 		private var _name:String
 		private var _dispatched_events:Hash = new Hash()
 		public var data:Object = { }
 		private var _title:String
 		private var _parameters:Hash
 		private var _partials:Array = new Array()
+		private var _animations_on_event:Object = {}
 		
 		/**
 		 *  @constructor
+		 */
+		public function Page(){}
+
+		/**
 		 *	@param	name	 	The name of the page - in lowercase, words separated with _ (for example "project_image"). Must be unique
 		 *	@param	parameters	Parameters of the page
 		 */
-		public function Page(name:String, parameters:Object = null) 
-		{
+		public function setParams(name:String, parameters:Object = null):Page {
 			this._name = name
 			this._parameters = new Hash(parameters)
+			return this
 		}
 		
 		override public function dispatchEvent(event:Event):Boolean 
@@ -76,18 +82,18 @@
 		/**
 		 *	Add tweens (animations) for widgets on this page. Accepts WidgetTween, TweenGroup and Partial objects
 		 */
-		public function setTweens(...arguments):void { FunctionTools.flatten_args( setTweens, setTween, arguments ) }
+		public function setAnimations(...arguments):void { FunctionTools.flatten_args( setAnimations, setAnimation, arguments ) }
 		
 		/**
 		 *	Adds a single tween (animation) for a widget on the page. Accepts WidgetTween, TweenGroup and Partial objects
 		 */
-		public function setTween(tween:*):void {
-			if (tween is WidgetTween) {
-				_tweens.push(tween)
-			}else if ( tween is TweenGroup) this.setTweens(tween.tweens) 
-			else if ( tween is Partial) {
-				this.setTweens(tween.tweens)
-				this.addPartial(tween)
+		public function setAnimation(animation:*):void {
+			if (animation is Animation) {
+				_animations.push(animation)
+			}else if ( animation is AnimationGroup) this.setAnimations(animation.animations) 
+			else if ( animation is Partial) {
+				this.setAnimations(animation.animations)
+				this.addPartial(animation)
 			}
 		}
 		
@@ -113,7 +119,7 @@
 		/**
 		 *	See setWidgetView
 		 */
-		public function setWidgetViews(...arguments):void {	FunctionTools.flatten_args( setWidgetViews, setWidgetView, arguments) }
+		public function setElements(...arguments):void {	FunctionTools.flatten_args( setElements, setElement, arguments) }
 		
 		/**
 		 *	This is used both to add new widgets to a page, alter the condition of existing ones and to remove unwanted widgets.
@@ -122,15 +128,17 @@
 		 *	If a widget already exits (from a previous page), but is not specified, it will be tweened to a special "destroy" view
 		 *	on the end of which it'll be removed.
 		 */
-		public function setWidgetView(widget:*):void {
-			if (widget is WidgetView) {
-				_widget_views.push(widget)
-			}else if (widget is Partial) {
-				_widget_views = _widget_views.concat((widget as Partial).widget_views);
-				_tweens = _tweens.concat((widget as Partial).tweens);
-				this.addPartial(widget)
+		public function setElement(element:*):void {
+			if (element is WidgetView) {
+				_widget_views.push(element)
+			}else if (element is Partial) {
+				_widget_views = _widget_views.concat((element as Partial).widget_views);
+				_animations = _animations.concat((element as Partial).animations);
+				this.addPartial(element)
 			}
 		}
+		
+		protected function getElements():Array {	return this._widget_views }
 		
 		protected function setTitle(str:String):void { this._title = str }
 		
@@ -148,15 +156,24 @@
 		 *	@private
 		 */
 		static public function create(page_name:String, parameters:Object = null):Page {
-			return new (getDefinitionByName('app.pages.' + StringTools.classify(page_name)+'Page') as Class)(page_name, parameters)
+			try{
+				return (new (getDefinitionByName('app.pages.' + StringTools.classify(page_name) + 'Page') as Class)).setParams(page_name, parameters)
+			}catch (error:ReferenceError) {
+				throw new PageError('The page you are trying to access - ' + StringTools.classify(page_name) + 'Page has not been added and/or imported yet')
+			}
+			return null
 		}
 		
 		/**
 		 *	@private
 		 */
 		public function applyAnimationFor(view:WidgetView, from_page:Page = null):void {
-			for each( var tween:WidgetTween in this._tweens) {
-				if (tween.isFrom(from_page ? from_page._name : null, from_page ? from_page._parameters : null) && tween.appliesToView(view)) view.setTween(tween)
+			this._animations_on_event = { }
+			
+			for each( var animation:Animation in this._animations) {
+				if (animation.isFrom(from_page ? from_page._name : null, from_page ? from_page._parameters : null) && animation.appliesToView(view)) {
+					view.setAnimation(animation)
+				}
 			}
 		}
 		

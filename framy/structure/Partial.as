@@ -2,9 +2,9 @@
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import framy.animation.TweenGroup;
+	import framy.animation.Animation;
 	import framy.utils.FunctionTools;
-	import framy.animation.WidgetTween;
+	import framy.animation.AnimationGroup;
 	
 	/**
 	 *  A collection of widget views and tweens - when added to the page (using hte setWidgetView method) wll add
@@ -17,7 +17,7 @@
 	public class Partial extends EventDispatcher
 	{
 		private var _widget_views:Array = new Array()
-		private var _tweens:Array = new Array()
+		private var _animations:Array = new Array()
 		private var _page:Page
 		
 		public function Partial() 
@@ -31,27 +31,28 @@
 			return super.dispatchEvent(event);
 		}
 		
-		public function setTweens(...arguments):void { FunctionTools.flatten_args( setTweens, setTween, arguments ) }
+		public function setAnimations(...arguments):void { FunctionTools.flatten_args( setAnimations, setAnimation, arguments ) }
 		
-		public function setTween(tween:*):void {
-			if (tween is WidgetTween) {
-				_tweens.push(tween)
-			}else if ( tween is TweenGroup) this.setTweens(tween.tweens) 
-			else if ( tween is Partial){
-				tween.setPage(this.page)
-				this.setTweens(tween.tweens)
+		public function setAnimation(anim:*):void {
+			if (anim is Animation) {
+				_animations.push(anim)
+			}else if ( anim is AnimationGroup) this.setAnimations(anim.animations) 
+			else if ( anim is Partial){
+				anim.setPage(this.page)
+				this.setAnimations(anim.animations)
 			} 
 		}
 		
-		public function setWidgetViews(...arguments):void {	FunctionTools.flatten_args( setWidgetViews, setWidgetView, arguments) }
+		public function setElements(...arguments):void {	FunctionTools.flatten_args( setElements, setElement, arguments) }
 		
-		public function setWidgetView(widget:*):void {
-			if (widget is WidgetView) {
-				_widget_views.push(widget)
-			}else if (widget is Partial) {
-				_widget_views = _widget_views.concat((widget as Partial).widget_views);
-				widget.setPage(this.page)
-				_tweens = _tweens.concat((widget as Partial).tweens);
+		public function setElement(element:*):void {
+			
+			if (element is WidgetView) {
+				_widget_views.push(element)
+			}else if (element is Partial) {
+				_widget_views = _widget_views.concat((element as Partial).widget_views);
+				element.setPage(this.page)
+				_animations = _animations.concat((element as Partial).animations);
 			}
 		}
 		
@@ -70,7 +71,7 @@
 		 *  Returns all the tweens(groops and other partials) of this partial
 		 *	@private
 		 */
-		public function get tweens():Array { return _tweens; }
+		public function get animations():Array { return _animations; }
 		
 		/**
 		 *	Returns the parent page 

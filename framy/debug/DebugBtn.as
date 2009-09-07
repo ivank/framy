@@ -15,11 +15,11 @@ package framy.debug
 	private var btn:fyTextField
 	public var window:*
     
-    public function DebugBtn(str:String, window_class:Class=null)
+    public function DebugBtn(str:String, window_class:Class=null, btn_width:int = 70)
     {
-      var content:fySprite = fySprite.newRect({width:85, height: 19, color: Initializer.options.debug.btn_color})
-      content.addChild(this.btn = new fyTextField('normal', { width: 70, y:1, text: str, x: 7 }, new Hash(Initializer.options.debug.text_font).merge({ size: 12})))
-      content.addChild(fySprite.newFrame({ width:85, height: 19, color: Initializer.options.debug.btn_border_color}))
+      var content:fySprite = fySprite.newRect({width:btn_width+15, height: 19, color: Initializer.options.debug.btn_color})
+      content.addChild(this.btn = new fyTextField('normal', { width: btn_width, y:1, text: str, x: 7 }, new Hash(Initializer.options.debug.text_font).merge({ size: 12})))
+      content.addChild(fySprite.newFrame({ width:btn_width+15, height: 19, color: Initializer.options.debug.btn_border_color}))
       super(content, { _brightness: 0, _saturation:1 },{_brightness:0.2}, {_saturation: 0})
       
       this.window_class = window_class

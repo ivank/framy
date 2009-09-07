@@ -15,7 +15,7 @@
 	{
 		private var _maskable_mask:fySprite
 		private var _maskable_options:Hash
-		private var _maskable_content:Sprite
+		private var _maskable_content:fySprite
 		
 		public function MaskableSprite() 
 		{
@@ -37,7 +37,7 @@
 				this._maskable_options.extend({ alpha: 0.3, color: [0xFF0000,0x00FF00,0x0000FF,0xFFFF00,0x00FFFF,0xFF00FF][Math.floor(Math.random()*5)]})
 			}
 			this._maskable_mask = fySprite.newRect(this._maskable_options, mask_attributes)
-			this._maskable_content = new Sprite()
+			this._maskable_content = new fySprite()
 			if(!this._maskable_options.debug)this._maskable_content.mask = this._maskable_mask
 			var children_count:int = super.numChildren
 			
@@ -67,6 +67,13 @@
 		 */
 		public function getMasking():fySprite {
 			return _maskable_mask
+		}
+		
+		/**
+		 *	Get the actual sprite under the mask
+		 */
+		public function getMaskedContent():fySprite {
+			return _maskable_content
 		}
 
 		/**
