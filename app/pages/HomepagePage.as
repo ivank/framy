@@ -1,23 +1,23 @@
 package app.pages 
 {
-	import framy.animation.TweenGroup;
-	import framy.animation.WidgetTween;
+	import framy.animation.Animation;
 	import framy.structure.Page;
 	import framy.structure.WidgetView;
 	
 	public class HomepagePage extends Page
 	{
 		
-		public function HomepagePage(name:String, parameters:Object=null) 
+		public function HomepagePage() 
 		{
-			super(name, parameters)
-			
 			this.setTitle('Framy Project')
 			
-			this.setWidgetViews(
-				new WidgetView('title','show',{ x: 50, y: 50 })
+			this.setElements(
+				new WidgetView('title','show',{ x: 'center', y: 'center' })
 			)
-			//this.setTweens()
+			
+			this.setAnimation(
+				new Animation('title', { position: { alpha: 0 } }, { position: { alpha:1, time: 1 } } ).setOptions( { from: 'loading' } )
+			)
 		}
 	}
 	

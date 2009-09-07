@@ -117,7 +117,7 @@
 		}
 		
 		/**
-		 *	See setWidgetView
+		 *	@see framy.structure.Page#setElement
 		 */
 		public function setElements(...arguments):void {	FunctionTools.flatten_args( setElements, setElement, arguments) }
 		
